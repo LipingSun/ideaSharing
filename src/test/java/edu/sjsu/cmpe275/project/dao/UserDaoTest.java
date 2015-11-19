@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  */
 public class UserDaoTest {
 
-    UserDao userDao;
+    UserDao userDao = new UserDaoImpl();
 
     @Test
     public void testFindById() throws Exception {
