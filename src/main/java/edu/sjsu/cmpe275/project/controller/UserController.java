@@ -14,12 +14,39 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/users*")
 @RestController
 public class UserController {
+
+
+    /**
+     * POST /api/v1/users
+     * Create a user
+     * @return Created user
+     */
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<?> createUser() {
+        return null;
+    }
+
+    /**
+     * GET /api/v1/users/{id}
+     * Get a user by user id
+     * @param userId user id
+     * @return Found user
+     */
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getUser(@PathVariable("id") long userId) {
-        if (userId == 1) {
-            return new ResponseEntity<>(new User(1, "user1", "user1@gmail.com", "This is user1"), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        return null;
     }
+
+    /**
+     * POST /api/v1/users/{id}
+     * Update a user by user id
+     * @param userId user id
+     * @return Updated user
+     */
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> updateUser(@PathVariable("id") long userId) {
+        return null;
+    }
+
+
 }
