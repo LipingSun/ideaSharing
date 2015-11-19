@@ -1,7 +1,7 @@
 package edu.sjsu.cmpe275.project.domain;
 
 /**
- * Created by xiaotong on 11/19/15.
+ * Created by jianxin , xiaotong on 11/19/15.
  */
 public class Idea {
     private int id;
@@ -9,8 +9,8 @@ public class Idea {
     private String description;
     private String problem;
     private String solution;
-    private String picture;
-    private String owner;
+//    private String picture;
+    private String user_id;
 
     public Idea() {
     }
@@ -60,19 +60,19 @@ public class Idea {
         this.solution = solution;
     }
 
-    public String getPicture() {
-        return picture;
+//    public String getPicture() {
+//        return picture;
+//    }
+
+//    public void setPicture(String picture) {
+//        this.picture = picture;
+//    }
+
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setUser_id(String owner) {
+        this.user_id = owner;
     }
 }
