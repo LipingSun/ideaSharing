@@ -5,12 +5,12 @@ package edu.sjsu.cmpe275.project.domain;
  */
 public class User {
 
-    private int id;
+    private long id;
     private String username;
     private String email;
     private String description;
 
-    public User(int id, String username, String email, String description) {
+    public User(long id, String username, String email, String description) {
         this.id = id;
         this.username = username;
         this.email = email;
