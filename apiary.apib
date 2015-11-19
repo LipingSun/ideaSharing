@@ -11,7 +11,7 @@ ideaSharing is a platform for sharing ideas to public.
 Resource Define
 
     {
-        "id": "int(8)",
+        "id": "number",
         "username": "string",
         "email": "string",
         "password": "string",
@@ -37,7 +37,7 @@ Create a user.
 + Response 200 (application/json)
 
         {
-            "id": 00000001,
+            "id": 1,
             "username": "user1",
             "email": "user1@gmail.com",
             "description": "This is user1"
@@ -52,12 +52,12 @@ Get the user by id.
 
 + Parameters
 
-    + id: `1` (number(8), required) - ID
+    + id: `1` (number, required)
     
 + Response 200 (application/json)
 
         {
-            "id": 00000001,
+            "id": 1,
             "username": "user1",
             "email": "user1@gmail.com",
             "description": "This is user1"
@@ -70,18 +70,133 @@ Update a user.
 + Request (application/json)
 
         {
-            "description": "user1 is awsome"
+            "description": "user1 is awesome"
         }
 
 + Response 200 (application/json)
 
         {
-            "id": 00000001,
+            "id": 1,
             "username": "user1",
             "email": "user1@gmail.com",
             "description": "user1 is awsome"
         }
 
+
+# Group Idea
+
+Resource Define
+
+    {
+        "id": "number",
+        "user_id": "number",
+        "title": "string",
+        "description": "string",
+        "problem": "string",
+        "solution": "string"
+    }
+    
+## /api/v1/users/{user_id}/ideas
+
+### GET
+
+Get user's ideas.
+
++ Parameters
+
+    + user_id: `1` (number, required)
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "user_id": 1,
+                "title": "Fly Jacket",
+                "description": "This is a jacket which enable flying",
+                "problem": "People cannot fly",
+                "solution": "Use Fly Jacket"
+            }
+        ]
+        
+### POST
+
+Create an idea.
+
++ Parameters
+
+    + user_id: `1` (number, required)
+
++ Attributes
+
+    + title (string, required)
+    + description (string, required)
+    + problem (string, required)
+    + solution (string, required)
+
++ Request (application/json)
+
+        {
+            "title": "Fly Jacket",
+            "description": "This is a jacket which enable flying",
+            "problem": "People cannot fly",
+            "solution": "Use Fly Jacket"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "user_id": 1,
+            "title": "Fly Jacket",
+            "description": "This is a jacket which enable flying",
+            "problem": "People cannot fly",
+            "solution": "Use Fly Jacket"
+        }
+
+
+## /api/v1/users/{user_id}/ideas/{id}
+
+### GET
+
+Get the idea.
+
++ Parameters
+
+    + user_id: `1` (number, required)
+    + id: `1` (number, required)
+    
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "user_id": 1,
+            "title": "Fly Jacket",
+            "description": "This is a jacket which enable flying",
+            "problem": "People cannot fly",
+            "solution": "Use Fly Jacket"
+        }
+
+### POST
+
+Update the idea.
+
++ Request (application/json)
+
+        {
+            "title": "Awesome Flying Jacket"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "user_id": 1,
+            "title": "Awesome Flying Jacket",
+            "description": "This is a jacket which enable flying",
+            "problem": "People cannot fly",
+            "solution": "Use Fly Jacket"
+        }
 
 
 # Group Pages
