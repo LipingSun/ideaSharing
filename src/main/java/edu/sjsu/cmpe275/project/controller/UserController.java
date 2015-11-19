@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-
     /**
      * POST /api/v1/users
      * Create a user
@@ -43,7 +42,7 @@ public class UserController {
      * @param userId user id
      * @return Updated user
      */
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "{id}", method = RequestMethod.POST)
     public ResponseEntity<?> updateUser(@PathVariable("id") long userId) {
         return null;
     }
