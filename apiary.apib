@@ -1,0 +1,112 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# ideaSharing
+
+ideaSharing is a platform for sharing ideas to public.
+
+
+# Group User
+
+Resource Define
+
+    {
+        "id": "int(8)",
+        "username": "string",
+        "email": "string"
+        "password": "string",
+        "description": "string"
+    }
+
+
+## /api/v1/users
+
+### POST
+
+Create a user.
+
++ Request (application/json)
+
+        {
+            "username": "user1",
+            "password": "passw",
+            "email": "user1@gmail.com"
+            "description": "This is user1"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "id": 00000001,
+            "username": "user1",
+            "email": "user1@gmail.com"
+            "description": "This is user1"
+        }
+
+
+## /api/v1/users/{id}
+
+### GET
+
+Get the user by id.
+
++ Parameters
+
+    + id (String(8), required) - ID
+    
++ Response 200 (application/json)
+
+        {
+            "id": 00000001,
+            "username": "user1",
+            "email": "user1@gmail.com"
+            "description": "This is user1"
+        }
+
+### POST
+
+Update a user.
+
++ Request (application/json)
+
+        {
+            "description": "user1 is awsome"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "id": 00000001,
+            "username": "user1",
+            "email": "user1@gmail.com"
+            "description": "user1 is awsome"
+        }
+
+
+
+# Group Pages
+
+## /register
+
+Get register page
+
+### GET
+
++ Response 200 (text/html)
+
+
+## /login
+
+Get login page
+
+### GET
+
++ Response 200 (text/html)
+
+## /logout
+
+Get logout page
+
+### GET
+
++ Response 200 (text/html)
