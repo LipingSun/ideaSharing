@@ -33,7 +33,11 @@ public class UserController {
      */
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getUser(@PathVariable("id") long userId) {
-        return null;
+        if (userId == 1) {
+            return new ResponseEntity<>(new User(1, "user1", "user1@gmail.com", "This is user1"), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     /**
