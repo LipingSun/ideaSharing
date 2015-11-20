@@ -78,7 +78,7 @@ public class UserDaoImpl implements UserDao {
     public User findById(long id) {
         Session session = sessionFactory.openSession();
         try{
-            return (User)session.get(User.class, id);
+            return session.get(User.class, id);
         }finally {
             session.close();
         }
