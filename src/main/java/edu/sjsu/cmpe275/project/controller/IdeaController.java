@@ -18,8 +18,8 @@ public class IdeaController {
 
     /**
      * Get a users' ideas
-     * @param userId
-     * @return ResponseEntity
+     * @param userId : user's id
+     * @return : all ideas created by this user
      */
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getIdeas(@PathVariable("user_id") long userId){
@@ -33,8 +33,8 @@ public class IdeaController {
 
     /**
      * Create a new idea
-     * @param userId
-     * @return ResponseEntity
+     * @param userId : user's id
+     * @return : create a new idea
      */
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> createIdea(@PathVariable("user_id") long userId){
@@ -49,8 +49,8 @@ public class IdeaController {
     /**
      * Get a user's idea by ides's id
      * @param userId
-     * @param id (idea's id)
-     * @return ResponseEntity
+     * @param id : idea's id
+     * @return :
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getIdeaById(@PathVariable("user_id") long userId , @PathVariable("id") long id){
@@ -63,9 +63,9 @@ public class IdeaController {
 
     /**
      * Update a user's idea by idea's id
-     * @param userId
-     * @param id (idea's id)
-     * @return ResponseEntity
+     * @param userId : user's id
+     * @param id : idea's id
+     * @return : updated idea
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public ResponseEntity<?> updateIdeaById(@PathVariable("user_id") long userId , @PathVariable("id") long id){
