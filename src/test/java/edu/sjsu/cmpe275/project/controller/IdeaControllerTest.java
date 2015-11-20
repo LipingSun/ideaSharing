@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 /**
  * Created by xiaotong on 11/19/15.
+ * Test of Idea Controller
  */
 public class IdeaControllerTest {
 
