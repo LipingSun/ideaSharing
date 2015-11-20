@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe275.project.controller;
 
+import edu.sjsu.cmpe275.project.dao.UserDao;
+import edu.sjsu.cmpe275.project.dao.UserDaoImpl;
 import edu.sjsu.cmpe275.project.domain.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,6 +15,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
 
+    private UserDao userDao;
+    public UserController(){
+        userDao = new UserDaoImpl();
+    }
     /**
      * POST /api/v1/users
      * Create a user
@@ -24,8 +30,13 @@ public class UserController {
                                         @RequestParam("email") String email,
                                         @RequestParam("description") String dsp)
     {
-//        User user = new User(userName)
-        return null;
+        User user = new User(userName, email,/* pwd,*/ dsp);
+        try {
+            userDao.store(user);
+            return new ResponseEntity<Object>(user, HttpStatus.OK);
+        }catch (Exception e){
+            throw e;
+        }
     }
 
     /**
@@ -35,11 +46,12 @@ public class UserController {
      * @return Found user
      */
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getUser(@PathVariable("id") long userId) {
-        if (userId == 1) {
-            return new ResponseEntity<>(new User(1, "user1", "user1@gmail.com", "This is user1"), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> getUser(@PathVariable("id") int userId) {
+        try {
+            User user = userDao.findById(userId);
+            return new ResponseEntity<Object>(user, user==null?HttpStatus.NOT_FOUND:HttpStatus.OK);
+        }catch (Exception e){
+            throw e;
         }
     }
 
@@ -50,8 +62,22 @@ public class UserController {
      * @return Updated user
      */
     @RequestMapping(value = "{id}", method = RequestMethod.POST)
-    public ResponseEntity<?> updateUser(@PathVariable("id") long userId) {
-        return null;
+    public ResponseEntity<?> updateUser(@PathVariable("id") int userId,
+                                        @RequestParam("username") String userName,
+                                        @RequestParam("email") String email,
+                                        @RequestParam("description") String dsp) {
+        try {
+            User user = userDao.findById(userId);
+            if(user == null)
+                return new ResponseEntity<Object>(user, HttpStatus.NOT_FOUND);
+            user.setUsername(userName);
+            user.setEmail(email);
+            user.setDescription(dsp);
+            User newUser = userDao.update(user);
+            return new ResponseEntity<Object>(newUser, HttpStatus.OK);
+        }catch (Exception e){
+            throw e;
+        }
     }
 
 }
