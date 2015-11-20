@@ -7,10 +7,9 @@ import java.util.List;
 /**
  * Created by jianxin on 11/18/15.
  */
-
 public interface UserDao {
+    User findById(int id);
     void store(User user);
-    void delete(long id);
-    User findById(long id);
+    User update(User user);
     List<User> findAll();
 }
