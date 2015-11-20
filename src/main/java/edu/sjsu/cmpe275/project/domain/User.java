@@ -8,25 +8,9 @@ import java.util.*;
 
 @Entity
 @Table(name = "USER")
-/*
-    --@Id
-    --@GeneratedValue(strategy = GenerationType.IDENTITY) //what is this function about?
-    --@Column(name = "person_id")
-    --private long id;
 
-   -- @Column(name = "firstname")
-    --private String firstname;
-    --@Column(name = "lastname")
-    --private String lastname;
-
-    --@Column(name = "email", unique = true)
-    --private String email;
-
-    --@Column(name = "description")
-    --private String description;
-*/
 public class User {
-
+    // abc
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
