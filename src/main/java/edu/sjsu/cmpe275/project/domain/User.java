@@ -10,7 +10,7 @@ import java.util.*;
 @Table(name = "USER")
 
 public class User {
-    // abc
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
