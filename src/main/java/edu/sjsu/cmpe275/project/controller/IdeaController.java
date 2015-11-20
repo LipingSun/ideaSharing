@@ -70,6 +70,8 @@ public class IdeaController {
 //            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 //        }
         Idea idea = new Idea(userId, title, dsp);
+        if(solution != null) idea.setSolution(solution);
+        if(problem != null) idea.setProblem(problem);
         try {
 
             ideaDao.store(idea);
