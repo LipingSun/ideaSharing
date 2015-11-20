@@ -99,4 +99,9 @@ public class UserDaoImpl implements UserDao {
             session.close();
         }
     }
+
+    @Override
+    public User update(User user) {
+        return null;
+    }
 }

@@ -38,4 +38,6 @@ public interface UserDao {
      * @return A list of all the User records.
      */
     List<User> findAll();
+
+    User update(User user);
 }
