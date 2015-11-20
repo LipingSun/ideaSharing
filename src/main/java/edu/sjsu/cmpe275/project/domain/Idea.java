@@ -4,27 +4,28 @@ package edu.sjsu.cmpe275.project.domain;
  * Created by jianxin , xiaotong on 11/19/15.
  */
 public class Idea {
-    private int id;
+    private long id;
     private String title;
     private String description;
     private String problem;
     private String solution;
 //    private String picture;
-    private String user_id;
+    private long user_id;
 
     public Idea() {
     }
 
-    public Idea(String title, String description) {
+    public Idea(long user_id, String title, String description) {
+        this.user_id = user_id;
         this.title = title;
         this.description = description;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -68,11 +69,11 @@ public class Idea {
 //        this.picture = picture;
 //    }
 
-    public String getUser_id() {
+    public long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(String owner) {
+    public void setUser_id(long owner) {
         this.user_id = owner;
     }
 }
