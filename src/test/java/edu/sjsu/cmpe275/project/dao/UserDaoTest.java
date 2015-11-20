@@ -1,6 +1,5 @@
 package edu.sjsu.cmpe275.project.dao;
 
-import junit.framework.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,5 +14,21 @@ public class UserDaoTest {
     @Test
     public void testFindById() throws Exception {
         assertEquals(userDao.findById(1), 1);
+    }
+
+    public void testStore() throws Exception {
+
+    }
+
+    public void testDelete() throws Exception {
+
+    }
+
+    public void testUpdate() throws Exception {
+
+    }
+
+    public void testFindAll() throws Exception {
+
     }
 }
