@@ -1,16 +1,63 @@
 package edu.sjsu.cmpe275.project.domain;
+import javax.persistence.*;
+import java.util.*;
 
 /**
  * Created by Liping on 11/19/15.
  */
+
+@Entity
+@Table(name = "USER")
+/*
+    --@Id
+    --@GeneratedValue(strategy = GenerationType.IDENTITY) //what is this function about?
+    --@Column(name = "person_id")
+    --private long id;
+
+   -- @Column(name = "firstname")
+    --private String firstname;
+    --@Column(name = "lastname")
+    --private String lastname;
+
+    --@Column(name = "email", unique = true)
+    --private String email;
+
+    --@Column(name = "description")
+    --private String description;
+*/
 public class User {
 
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private int id;
+
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "email", unique = true)
     private String email;
+
+    @Column(name = "description")
     private String description;
 
-    public User(long id, String username, String email, String description) {
+    /* 注意这里以后需要加person<-->idea,@OneToMany(mappedBy = "user")
+     @Embedded
+    private Address address;
+
+    @ManyToOne(fetch = FetchType.EAGER)  //what is this function about?
+    @JoinColumn(name = "org_id")
+    private Organization org;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) //what is this function about?
+    @JoinTable(name = "FRIENDSHIP",
+            joinColumns = {@JoinColumn(name = "person1_id", referencedColumnName = "person_id")},
+            inverseJoinColumns = {@JoinColumn(name = "person2_id", referencedColumnName = "person_id")})
+    private List<Person> friends;
+     */
+
+
+    public User(int id, String username, String email, String description) {
         this.id = id;
         this.username = username;
         this.email = email;
