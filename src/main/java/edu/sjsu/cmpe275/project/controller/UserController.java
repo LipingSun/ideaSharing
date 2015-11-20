@@ -2,11 +2,9 @@ package edu.sjsu.cmpe275.project.controller;
 
 import edu.sjsu.cmpe275.project.domain.User;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Liping on 11/19/15.
@@ -20,8 +18,13 @@ public class UserController {
      * Create a user
      * @return Created user
      */
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> createUser() {
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createUser(@RequestParam("username") String userName,
+                                        @RequestParam("password") String pwd,
+                                        @RequestParam("email") String email,
+                                        @RequestParam("description") String dsp)
+    {
+//        User user = new User(userName)
         return null;
     }
 
@@ -50,6 +53,5 @@ public class UserController {
     public ResponseEntity<?> updateUser(@PathVariable("id") long userId) {
         return null;
     }
-
 
 }
