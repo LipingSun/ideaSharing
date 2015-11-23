@@ -1,24 +1,30 @@
 package edu.sjsu.cmpe275.project.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * A Category.
  */
 @Entity
 @Table(name = "category")
-public class Category {
+public class Category implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "name")
     private String name;
 
-    //@OneToMany(mappedBy = "category")
-    //@JsonIgnore
-    //private Set<Idea> ideas = new HashSet<>();
+    @OneToMany(mappedBy = "category")
+    @JsonIgnore
+    private Set<Idea> ideas = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -36,12 +42,36 @@ public class Category {
         this.name = name;
     }
 
-    //public Set<Idea> getIdeas() {
-    //    return ideas;
-    //}
-    //
-    //public void setIdeas(Set<Idea> ideas) {
-    //    this.ideas = ideas;
-    //}
+    public Set<Idea> getIdeas() {
+        return ideas;
+    }
 
+    public void setIdeas(Set<Idea> ideas) {
+        this.ideas = ideas;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Category category = (Category) o;
+        return Objects.equals(id, category.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+            "id=" + id +
+            ", name='" + name + "'" +
+            '}';
+    }
 }

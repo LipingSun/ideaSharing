@@ -10,33 +10,37 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * A Person.
+ * A Idea.
  */
 @Entity
-@Table(name = "person")
-public class Person implements Serializable {
+@Table(name = "idea")
+public class Idea implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "title", nullable = false)
+    private String title;
 
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private Set<Idea> ideas = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Person user;
 
-    @OneToMany(mappedBy = "user")
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @OneToMany(mappedBy = "idea")
     @JsonIgnore
     private Set<UserReadIdea> userReadIdeas = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "idea")
     @JsonIgnore
     private Set<UserLikedIdea> userLikedIdeas = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "idea")
     @JsonIgnore
     private Set<Comment> comments = new HashSet<>();
 
@@ -48,20 +52,28 @@ public class Person implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getTitle() {
+        return title;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Set<Idea> getIdeas() {
-        return ideas;
+    public Person getUser() {
+        return user;
     }
 
-    public void setIdeas(Set<Idea> ideas) {
-        this.ideas = ideas;
+    public void setUser(Person person) {
+        this.user = person;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Set<UserReadIdea> getUserReadIdeas() {
@@ -96,8 +108,8 @@ public class Person implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Person person = (Person) o;
-        return Objects.equals(id, person.id);
+        Idea idea = (Idea) o;
+        return Objects.equals(id, idea.id);
     }
 
     @Override
@@ -107,9 +119,9 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "Idea{" +
             "id=" + id +
-            ", username='" + username + "'" +
+            ", title='" + title + "'" +
             '}';
     }
 }
