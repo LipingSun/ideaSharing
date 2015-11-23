@@ -16,7 +16,7 @@
         <!-- <property name="hbm2ddl.auto">update</property> -->
 
         <!--<mapping class="edu.sjsu.cmpe275.project.domain.Category"/>-->
-        <mapping class="edu.sjsu.cmpe275.project.domain.Person"/>
+        <!--<mapping class="edu.sjsu.cmpe275.project.domain.Person"/>-->
         <!--<mapping class="edu.sjsu.cmpe275.project.domain.Organization"/>-->
     </session-factory>
 </hibernate-configuration>
