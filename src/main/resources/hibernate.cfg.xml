@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://ec2-54-83-202-64.compute-1.amazonaws.com/dfetfbjetlhed0?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory</property>
+        <property name="hibernate.connection.username">kcrflfsxwsbsda</property>
+        <property name="hibernate.connection.password">USszUtGlzGyO0kFwjXcfH3Rh5X</property>
+        <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+        <property name="show_sql">true</property>
+        <!-- DB schema will be updated if needed -->
+        <property name="hibernate.hbm2ddl.auto">create</property>
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+
+        <!--<mapping class="edu.sjsu.cmpe275.project.domain.Category"/>-->
+        <mapping class="edu.sjsu.cmpe275.project.domain.Person"/>
+        <!--<mapping class="edu.sjsu.cmpe275.project.domain.Organization"/>-->
+    </session-factory>
+</hibernate-configuration>
