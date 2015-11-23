@@ -26,7 +26,7 @@ public class Idea implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Person user;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -60,12 +60,12 @@ public class Idea implements Serializable {
         this.title = title;
     }
 
-    public Person getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(Person person) {
-        this.user = person;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Category getCategory() {

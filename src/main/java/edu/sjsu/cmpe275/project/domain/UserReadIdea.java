@@ -21,7 +21,7 @@ public class UserReadIdea implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Person user;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "idea_id")
@@ -43,12 +43,12 @@ public class UserReadIdea implements Serializable {
         this.time = time;
     }
 
-    public Person getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(Person person) {
-        this.user = person;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Idea getIdea() {

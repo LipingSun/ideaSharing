@@ -14,7 +14,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "person")
-public class Person implements Serializable {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -96,8 +96,8 @@ public class Person implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Person person = (Person) o;
-        return Objects.equals(id, person.id);
+        User user = (User) o;
+        return Objects.equals(id, user.id);
     }
 
     @Override
