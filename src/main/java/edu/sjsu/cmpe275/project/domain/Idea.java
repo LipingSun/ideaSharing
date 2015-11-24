@@ -15,6 +15,16 @@ import java.util.Set;
 @Entity
 @Table(name = "idea")
 public class Idea implements Serializable {
+//    Resource Define
+//
+//    {
+//        "id": "number",
+//            "user_id": "number",
+//            "title": "string",
+//            "description": "string",
+//            "problem": "string",
+//            "solution": "string"
+//    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +33,18 @@ public class Idea implements Serializable {
     @NotNull
     @Column(name = "title", nullable = false)
     private String title;
+
+    @NotNull
+    @Column(name = "description")
+    private String description;
+
+    @NotNull
+    @Column(name = "problem", nullable = false)
+    private String problem;
+
+    @NotNull
+    @Column(name = "solution")
+    private String solution;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
