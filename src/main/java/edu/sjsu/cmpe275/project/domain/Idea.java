@@ -15,16 +15,6 @@ import java.util.Set;
 @Entity
 @Table(name = "idea")
 public class Idea implements Serializable {
-//    Resource Define
-//
-//    {
-//        "id": "number",
-//            "user_id": "number",
-//            "title": "string",
-//            "description": "string",
-//            "problem": "string",
-//            "solution": "string"
-//    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
