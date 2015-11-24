@@ -2,6 +2,7 @@ package edu.sjsu.cmpe275.project.rest;
 
 import edu.sjsu.cmpe275.project.domain.Idea;
 import edu.sjsu.cmpe275.project.repository.IdeaRepository;
+import edu.sjsu.cmpe275.project.repository.UserRepository;
 import edu.sjsu.cmpe275.project.rest.util.HeaderUtil;
 import edu.sjsu.cmpe275.project.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class IdeaResource {
 
     @Inject
     private IdeaRepository ideaRepository;
-
+    private UserRepository userRepository;
 
     /**
      * GET /ideas{?user_id} -> Get user's ideas..
@@ -47,13 +48,13 @@ public class IdeaResource {
     public ResponseEntity<List<Idea>> getIdeasByUser(@PathVariable Long user_id) throws URISyntaxException {
         log.debug("REST request to get Ideas of a user : {}", user_id);
 
-        List<Idea> list = ideaRepository.findAll();
-        for(int i = list.size() - 1 ; i >= 0 ; i --){
-            Idea idea = list.get(i);
-            if(idea.getUser().getId() != user_id){
-                list.remove(i);
-            }
-        }
+        List<Idea> list = ideaRepository.findAllByUser_id(user_id);
+//        for(int i = list.size() - 1 ; i >= 0 ; i --){
+//            Idea idea = list.get(i);
+//            if(idea.getUser().getId() != user_id){
+//                list.remove(i);
+//            }
+//        }
 
         return Optional.ofNullable(list)
                 .map(user_ideas -> new ResponseEntity<>(
@@ -79,7 +80,25 @@ public class IdeaResource {
             .headers(HeaderUtil.createEntityCreationAlert("idea", result.getId().toString()))
             .body(result);
     }
+    /**
+     * GET /ideas{?user_id} -> Get user's ideas..
+     */
+    @RequestMapping(value = "/ideas/{user_id}",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
 
+    public ResponseEntity<Idea> createIdeasByUser(@PathVariable Long user_id , @Valid @RequestBody Idea idea) throws URISyntaxException {
+        log.debug("REST request to create an idea by a user : {}", user_id);
+        if (idea.getId() != null) {
+            return ResponseEntity.badRequest().header("Failure", "A new idea cannot already have an ID").body(null);
+        }
+
+        idea.setUser(userRepository.findOne(user_id));
+        Idea result = ideaRepository.save(idea);
+        return ResponseEntity.created(new URI("/api/ideas/{user_id}/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert("idea", result.getId().toString()))
+                .body(result);
+    }
     /**
      * PUT  /ideas -> Updates an existing idea.
      */
