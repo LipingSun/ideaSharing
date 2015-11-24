@@ -359,7 +359,7 @@ Resource Defination
         "time": "datetime"
     }
 
-## /api/users/{user_id}/likes
+## /api/users/{user_id}/like
 
 ### GET
 
@@ -376,7 +376,7 @@ Resource Defination
             "time": 2015-11-23 15:00:00 (Format to Be Determined)
         }
         
-## /api/ideas/{idea_id}/likes
+## /api/ideas/{idea_id}/like
 
 ### GET
 
@@ -393,7 +393,7 @@ Resource Defination
             "time": 2015-11-23 15:00:00 (Format to Be Determined)
         }
 
-## /api/likes/{idea_id}/{user_id}
+## /api/like/{idea_id}/{user_id}
 
 ### PUT
 
@@ -410,8 +410,73 @@ Resource Defination
             "user_id": 1,
             "time": 2015-11-23 15:00:00 (Format to Be Determined)
         }
-    
+        
+### DELETE
 
++ Parameters
+
+    + user_id: `1` (number, required)
+    + idea_id: `1` (number, required)
+    
++ Response 200
+
+
+# Group follow
+
+Resource Defination
+
+    {
+        "id": "number",
+        "follower_id": "number",
+        "followee_id": "number",
+        "time": "datetime"
+    }
+
+## /api/users/{user_id}/follow
+
+### GET
+
++ Parameters
+
+    + user_id: `1` (number, required)
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "follower_id": 1,
+                "followee_id": 2,
+                "time": 2015-11-23 15:00:00 (Format to Be Determined)
+            }
+        }
+
+## /api/follow/{follower_id}/{followee_id}
+
+### PUT
+
++ Parameters
+
+    + follower_id: `1` (number, required)
+    + followee_id: `1` (number, required)
+    
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "follower_id": 1,
+            "followee_id": 2,
+            "time": 2015-11-23 15:00:00 (Format to Be Determined)
+        }
+
+### DELETE
+
++ Parameters
+
+    + follower_id: `1` (number, required)
+    + followee_id: `1` (number, required)
+    
++ Response 200
 
 
 # Group Pages
