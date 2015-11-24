@@ -3,6 +3,7 @@ package edu.sjsu.cmpe275.project.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 /**
@@ -18,6 +19,9 @@ public class Comment implements Serializable {
 
     @Column(name = "content")
     private String content;
+
+    @Column(name = "time")
+    private ZonedDateTime time;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -41,6 +45,14 @@ public class Comment implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public ZonedDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(ZonedDateTime time) {
+        this.time = time;
     }
 
     public User getUser() {
@@ -81,6 +93,7 @@ public class Comment implements Serializable {
         return "Comment{" +
             "id=" + id +
             ", content='" + content + "'" +
-            '}';
+            ", time='" + time.toString() + "'" +
+            "}";
     }
 }
