@@ -36,6 +36,7 @@ public class IdeaResource {
 
     @Inject
     private IdeaRepository ideaRepository;
+    @Inject
     private UserRepository userRepository;
 
     /**
@@ -80,14 +81,15 @@ public class IdeaResource {
             .headers(HeaderUtil.createEntityCreationAlert("idea", result.getId().toString()))
             .body(result);
     }
+
     /**
-     * GET /ideas{?user_id} -> Get user's ideas..
+     * POST /ideas{?user_id} -> Create a new idea by the user..
      */
     @RequestMapping(value = "/ideas/{user_id}",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<Idea> createIdeasByUser(@PathVariable Long user_id , @Valid @RequestBody Idea idea) throws URISyntaxException {
+    public ResponseEntity<Idea> createIdeaByUser(@PathVariable Long user_id , @Valid @RequestBody Idea idea) throws URISyntaxException {
         log.debug("REST request to create an idea by a user : {}", user_id);
         if (idea.getId() != null) {
             return ResponseEntity.badRequest().header("Failure", "A new idea cannot already have an ID").body(null);
@@ -99,6 +101,7 @@ public class IdeaResource {
                 .headers(HeaderUtil.createEntityCreationAlert("idea", result.getId().toString()))
                 .body(result);
     }
+
     /**
      * PUT  /ideas -> Updates an existing idea.
      */
