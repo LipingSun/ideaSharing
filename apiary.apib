@@ -279,7 +279,7 @@ Resource Defination
         "content": "string"
     }
 
-## /api/comments{?idea_id}
+## /api/ideas/{idea_id}/comments
 
 ### GET
 
@@ -327,7 +327,7 @@ Create a comment.
             "content": "This idea is fantastic"
         }
         
-## /api/comments/{id}
+## /api/ideas/{idea_id}/comments/{id}
 
 ### GET
 
@@ -335,6 +335,7 @@ Get the comment.
 
 + Parameters
 
+    + idea_id: `1` (number, required)
     + id: `1` (number, required)
 
 + Response 200 (application/json)
