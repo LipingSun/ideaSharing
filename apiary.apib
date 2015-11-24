@@ -90,8 +90,8 @@ Resource Define
     {
         "id": "number",
         "user_id": "number",
+        "category_id": "number",
         "title": "string",
-        "category": "technology",
         "description": "string",
         "problem": "string",
         "solution": "string"
@@ -113,6 +113,7 @@ Get user's ideas.
             {
                 "id": 1,
                 "user_id": 1,
+                "category_id": 1,
                 "title": "Fly Jacket",
                 "description": "This is a jacket which enable flying",
                 "problem": "People cannot fly",
@@ -131,7 +132,7 @@ Create an idea.
 + Attributes
 
     + title (string, required)
-    + category (string, optional)
+    + category_id (number, optional)
     + description (string, required)
     + problem (string, required)
     + solution (string, required)
@@ -139,8 +140,8 @@ Create an idea.
 + Request (application/json)
 
         {
+            "category_id": 1,
             "title": "Fly Jacket",
-            "category": "technology",
             "description": "This is a jacket which enable flying",
             "problem": "People cannot fly",
             "solution": "Use Fly Jacket"
@@ -151,8 +152,8 @@ Create an idea.
         {
             "id": 1,
             "user_id": 1,
+            "category_id": 1,
             "title": "Fly Jacket",
-            "category": "technology",
             "description": "This is a jacket which enable flying",
             "problem": "People cannot fly",
             "solution": "Use Fly Jacket"
@@ -174,8 +175,8 @@ Get the idea.
         {
             "id": 1,
             "user_id": 1,
+            "category_id": 1,
             "title": "Fly Jacket",
-            "category": "technology",
             "description": "This is a jacket which enable flying",
             "problem": "People cannot fly",
             "solution": "Use Fly Jacket"
@@ -196,13 +197,155 @@ Update the idea.
         {
             "id": 1,
             "user_id": 1,
-            "title": "Awesome Flying Jacket",
-            "category": "technology",
+            "category_id": 1,
+            "title": "Fly Jacket",
             "description": "This is a jacket which enable flying",
             "problem": "People cannot fly",
             "solution": "Use Fly Jacket"
         }
 
+# Group Category
+
+Resource Defination
+
+    {
+        "id": "number",
+        "name": "number"
+    }
+    
+
+## /api/categories
+
+### GET
+
+Get all categories.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "name": "technology"
+            }
+        ]
+
+### POST
+
+Create a category.
+
++ Attributes
+
+    + name (string, required)
+
++ Request (application/json)
+
+        {
+            "name": "technology"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "name": "technology"
+        }
+        
+## /api/categories/{id}
+
+### GET
+
+Get the category.
+
++ Parameters
+
+    + id: `1` (number, required)
+
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "name": "technology"
+        }
+
+# Group Comment
+
+Resource Defination
+
+    {
+        "id": "number",
+        "idea_id": "number",
+        "commenter_id": "number",
+        "time": "datetime",
+        "content": "string"
+    }
+
+## /api/comments{?idea_id}
+
+### GET
+
+Get all comments (of an idea).
+
++ Parameters
+
+    + idea_id: `1` (number, required)
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "idea_id": 1,
+                "commenter_id": 1,
+                "time": 2015-11-23 15:00:00 (Not sure),
+                "content": "This idea is fantastic"
+            }
+        ]
+
+### POST
+
+Create a comment.
+
++ Parameters
+
+    + idea_id: `1` (number, required)
+
++ Request (application/json)
+
+        {
+            "commenter_id": 1,
+            "time": 2015-11-23 15:00:00 (Not sure),
+            "content": "This idea is fantastic"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "idea_id": 1,
+            "commenter_id": 1,
+            "time": 2015-11-23 15:00:00 (Not sure),
+            "content": "This idea is fantastic"
+        }
+        
+## /api/comments/{id}
+
+### GET
+
+Get the comment.
+
++ Parameters
+
+    + id: `1` (number, required)
+
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "idea_id": 1,
+            "commenter_id": 1,
+            "time": 2015-11-23 15:00:00 (Not sure),
+            "content": "This idea is fantastic"
+        }
 
 # Group Pages
 
