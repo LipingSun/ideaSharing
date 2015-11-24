@@ -296,7 +296,7 @@ Get all comments (of an idea).
                 "id": 1,
                 "idea_id": 1,
                 "commenter_id": 1,
-                "time": 2015-11-23 15:00:00 (Not sure),
+                "time": 2015-11-23 15:00:00 (Format to Be Determined),
                 "content": "This idea is fantastic"
             }
         ]
@@ -313,7 +313,7 @@ Create a comment.
 
         {
             "commenter_id": 1,
-            "time": 2015-11-23 15:00:00 (Not sure),
+            "time": 2015-11-23 15:00:00 (Format to Be Determined),
             "content": "This idea is fantastic"
         }
 
@@ -323,7 +323,7 @@ Create a comment.
             "id": 1,
             "idea_id": 1,
             "commenter_id": 1,
-            "time": 2015-11-23 15:00:00 (Not sure),
+            "time": 2015-11-23 15:00:00 (Format to Be Determined),
             "content": "This idea is fantastic"
         }
         
@@ -344,9 +344,75 @@ Get the comment.
             "id": 1,
             "idea_id": 1,
             "commenter_id": 1,
-            "time": 2015-11-23 15:00:00 (Not sure),
+            "time": 2015-11-23 15:00:00 (Format to Be Determined),
             "content": "This idea is fantastic"
         }
+
+# Group like
+
+Resource Defination
+
+    {
+        "id": "number",
+        "idea_id": "number",
+        "user_id": "number",
+        "time": "datetime"
+    }
+
+## /api/users/{user_id}/likes
+
+### GET
+
++ Parameters
+
+    + user_id: `1` (number, required)
+    
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "idea_id": 1,
+            "user_id": 1,
+            "time": 2015-11-23 15:00:00 (Format to Be Determined)
+        }
+        
+## /api/ideas/{idea_id}/likes
+
+### GET
+
++ Parameters
+
+    + idea_id: `1` (number, required)
+    
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "idea_id": 1,
+            "user_id": 1,
+            "time": 2015-11-23 15:00:00 (Format to Be Determined)
+        }
+
+## /api/likes/{idea_id}/{user_id}
+
+### PUT
+
++ Parameters
+
+    + user_id: `1` (number, required)
+    + idea_id: `1` (number, required)
+    
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "idea_id": 1,
+            "user_id": 1,
+            "time": 2015-11-23 15:00:00 (Format to Be Determined)
+        }
+    
+
+
 
 # Group Pages
 
