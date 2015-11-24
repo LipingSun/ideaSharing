@@ -91,12 +91,13 @@ Resource Define
         "id": "number",
         "user_id": "number",
         "title": "string",
+        "category": "technology",
         "description": "string",
         "problem": "string",
         "solution": "string"
     }
     
-## /api/users/{user_id}/ideas
+## /api/ideas{?user_id}
 
 ### GET
 
@@ -130,6 +131,7 @@ Create an idea.
 + Attributes
 
     + title (string, required)
+    + category (string, optional)
     + description (string, required)
     + problem (string, required)
     + solution (string, required)
@@ -138,6 +140,7 @@ Create an idea.
 
         {
             "title": "Fly Jacket",
+            "category": "technology",
             "description": "This is a jacket which enable flying",
             "problem": "People cannot fly",
             "solution": "Use Fly Jacket"
@@ -149,13 +152,14 @@ Create an idea.
             "id": 1,
             "user_id": 1,
             "title": "Fly Jacket",
+            "category": "technology",
             "description": "This is a jacket which enable flying",
             "problem": "People cannot fly",
             "solution": "Use Fly Jacket"
         }
 
 
-## /api/users/{user_id}/ideas/{id}
+## /api/ideas/{id}
 
 ### GET
 
@@ -163,8 +167,7 @@ Get the idea.
 
 + Parameters
 
-    + user_id: `1` (number, required)
-    + id: `1` (number, required)
+    + id: `1` (number, optional)
     
 + Response 200 (application/json)
 
@@ -172,6 +175,7 @@ Get the idea.
             "id": 1,
             "user_id": 1,
             "title": "Fly Jacket",
+            "category": "technology",
             "description": "This is a jacket which enable flying",
             "problem": "People cannot fly",
             "solution": "Use Fly Jacket"
@@ -193,6 +197,7 @@ Update the idea.
             "id": 1,
             "user_id": 1,
             "title": "Awesome Flying Jacket",
+            "category": "technology",
             "description": "This is a jacket which enable flying",
             "problem": "People cannot fly",
             "solution": "Use Fly Jacket"
