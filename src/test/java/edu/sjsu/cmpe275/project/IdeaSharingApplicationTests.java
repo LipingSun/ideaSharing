@@ -17,9 +17,4 @@ public class IdeaSharingApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
-
-	@Test
-	public void createUserTest(){
-
-	}
 }
