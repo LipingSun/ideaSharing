@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe275.project.rest;
 
 import edu.sjsu.cmpe275.project.domain.Idea;
+import edu.sjsu.cmpe275.project.domain.User;
 import edu.sjsu.cmpe275.project.repository.IdeaRepository;
 import edu.sjsu.cmpe275.project.repository.UserRepository;
 import edu.sjsu.cmpe275.project.rest.util.HeaderUtil;
@@ -48,8 +49,8 @@ public class IdeaResource {
 
     public ResponseEntity<List<Idea>> getIdeasByUser(@PathVariable Long user_id) throws URISyntaxException {
         log.debug("REST request to get Ideas of a user : {}", user_id);
-
-        List<Idea> list = ideaRepository.findAllByUser_id(user_id);
+        User user = userRepository.findOne(user_id);
+        List<Idea> list = ideaRepository.findAllByUser_id(user);
 //        for(int i = list.size() - 1 ; i >= 0 ; i --){
 //            Idea idea = list.get(i);
 //            if(idea.getUser().getId() != user_id){
