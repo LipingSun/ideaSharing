@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe275.project.User_and_Idea_Test;
 
 import edu.sjsu.cmpe275.project.rest.IdeaResource;
+import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -15,13 +16,13 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 public class UserTest {
     private final MockMvc mockMvc = standaloneSetup(new IdeaResource()).build();
 
-//    @org.junit.Test
-//    public void testGetIdeas() throws Exception{
-//        mockMvc.perform(MockMvcRequestBuilders.get("api/ideas/1"))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("title").value("Good Idea"));
-//    }
+    @Test
+    public void testGetIdeas() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get("api/users?email=1234567@qq.com&password=123456&username=bunny"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("email").value("1234567@qq.com"));
+    }
 
 
 }

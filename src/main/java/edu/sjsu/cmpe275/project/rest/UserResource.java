@@ -47,11 +47,22 @@ public class UserResource {
             return ResponseEntity.badRequest().header("Failure", "A new user cannot already have an ID").body(null);
         }
         User result = userRepository.save(user);
-        return ResponseEntity.created(new URI("/api/users/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("user", result.getId().toString()))
-            .body(result);
+//        return ResponseEntity.created(new URI("/api/users/" + result.getId()))
+//            .headers(HeaderUtil.createEntityCreationAlert("user", result.getId().toString()))
+//            .body(result);
+        return new ResponseEntity<>(result,  HttpStatus.OK);
     }
-
+    public ResponseEntity<User> createUser2(@Valid @RequestBody User user) throws URISyntaxException {
+        log.debug("REST request to save User : {}", user);
+        if (user.getId() != null) {
+            return ResponseEntity.badRequest().header("Failure", "A new user cannot already have an ID").body(null);
+        }
+        User result = userRepository.save(user);
+//        return ResponseEntity.created(new URI("/api/users/" + result.getId()))
+//            .headers(HeaderUtil.createEntityCreationAlert("user", result.getId().toString()))
+//            .body(result);
+        return new ResponseEntity<>(result,  HttpStatus.OK);
+    }
     /**
      * PUT  /users -> Updates an existing user.
      */
