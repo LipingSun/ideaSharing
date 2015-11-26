@@ -24,6 +24,15 @@ public class User implements Serializable {
     @Column(name = "username", nullable = false)
     private String username;
 
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "description")
+    private String description;
+
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<Idea> ideas = new HashSet<>();
@@ -54,6 +63,30 @@ public class User implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Set<Idea> getIdeas() {
