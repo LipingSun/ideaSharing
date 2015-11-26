@@ -96,71 +96,6 @@ Resource Define
         "problem": "string",
         "solution": "string"
     }
-    
-## /api/ideas{?order,user_id,category_id,search}
-
-### GET
-
-Get ideas.
-
-+ Parameters
-
-    + order: `like` (string, optional)
-    + user_id: `1` 
-    + category_id: `1` (number, optional)
-    + search: `blablabla` (string, optional)
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "id": 1,
-                "user_id": 1,
-                "category_id": 1,
-                "title": "Fly Jacket",
-                "description": "This is a jacket which enable flying",
-                "problem": "People cannot fly",
-                "solution": "Use Fly Jacket"
-            }
-        ]
-        
-### POST
-
-Create an idea.
-
-+ Parameters
-
-    + user_id: `1` (number, required)
-
-+ Attributes
-
-    + title (string, required)
-    + category_id (number, optional)
-    + description (string, required)
-    + problem (string, required)
-    + solution (string, required)
-
-+ Request (application/json)
-
-        {
-            "category_id": 1,
-            "title": "Fly Jacket",
-            "description": "This is a jacket which enable flying",
-            "problem": "People cannot fly",
-            "solution": "Use Fly Jacket"
-        }
-
-+ Response 200 (application/json)
-
-        {
-            "id": 1,
-            "user_id": 1,
-            "category_id": 1,
-            "title": "Fly Jacket",
-            "description": "This is a jacket which enable flying",
-            "problem": "People cannot fly",
-            "solution": "Use Fly Jacket"
-        }
 
 
 ## /api/ideas/{id}
@@ -206,6 +141,143 @@ Update the idea.
             "problem": "People cannot fly",
             "solution": "Use Fly Jacket"
         }
+
+
+## /api/ideas{?user_id}
+
+### GET
+
+Get user's created ideas.
+
++ Parameters
+
+    + user_id: `1` 
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "user_id": 1,
+                "category_id": 1,
+                "title": "Fly Jacket",
+                "description": "This is a jacket which enable flying",
+                "problem": "People cannot fly",
+                "solution": "Use Fly Jacket"
+            }
+        ]
+
+### POST
+
+Create an idea.
+
++ Parameters
+
+    + user_id: `1` (number, required)
+
++ Attributes
+
+    + title (string, required)
+    + category_id (number, optional)
+    + description (string, required)
+    + problem (string, required)
+    + solution (string, required)
+
++ Request (application/json)
+
+        {
+            "category_id": 1,
+            "title": "Fly Jacket",
+            "description": "This is a jacket which enable flying",
+            "problem": "People cannot fly",
+            "solution": "Use Fly Jacket"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "user_id": 1,
+            "category_id": 1,
+            "title": "Fly Jacket",
+            "description": "This is a jacket which enable flying",
+            "problem": "People cannot fly",
+            "solution": "Use Fly Jacket"
+        }
+        
+## /api/ideas{?order,no_like_read}
+
+// Do this after implement spring security
+
+### GET
+
+Get ideas for ideas list page .
+
++ Parameters
+
+    + order: `like` (string, required)
+    + no_like_read: `true` (bool, required)
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "user_id": 1,
+                "category_id": 1,
+                "title": "Fly Jacket",
+                "description": "This is a jacket which enable flying",
+                "problem": "People cannot fly",
+                "solution": "Use Fly Jacket"
+            }
+        ]
+
+## GET /api/ideas{?search,order}
+
+Search ideas.
+
++ Parameters
+
+    + search: `blablabla` (string, required)
+    + order: `like` (string, optional)
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "user_id": 1,
+                "category_id": 1,
+                "title": "Fly Jacket",
+                "description": "This is a jacket which enable flying",
+                "problem": "People cannot fly",
+                "solution": "Use Fly Jacket"
+            }
+        ]
+
+## GET /api/ideas{?category_id,order}
+
+Get ideas for category page.
+
++ Parameters
+
+    + category_id: `1` (number, optional)
+    + order: `like` (string, optional)
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "user_id": 1,
+                "category_id": 1,
+                "title": "Fly Jacket",
+                "description": "This is a jacket which enable flying",
+                "problem": "People cannot fly",
+                "solution": "Use Fly Jacket"
+            }
+        ]
+
 
 # Group Category
 
