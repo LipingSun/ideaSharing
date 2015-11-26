@@ -97,15 +97,18 @@ Resource Define
         "solution": "string"
     }
     
-## /api/ideas{?user_id}
+## /api/ideas{?order,user_id,category_id,search}
 
 ### GET
 
-Get user's ideas.
+Get ideas.
 
 + Parameters
 
-    + user_id: `1` (number, required)
+    + order: `like` (string, optional)
+    + user_id: `1` 
+    + category_id: `1` (number, optional)
+    + search: `blablabla` (string, optional)
 
 + Response 200 (application/json)
 
