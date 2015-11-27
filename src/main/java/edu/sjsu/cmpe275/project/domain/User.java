@@ -22,18 +22,6 @@ public class User implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "email", nullable = false)
-    private String email;
-
-    @NotNull
-    @Column(name = "password", nullable = false)
-    private String password;
-
-    @NotNull
-    @Column(name = "description")
-    private String description;
-
-    @NotNull
     @Column(name = "username", nullable = false)
     private String username;
 
@@ -70,30 +58,6 @@ public class User implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getUsername() {
