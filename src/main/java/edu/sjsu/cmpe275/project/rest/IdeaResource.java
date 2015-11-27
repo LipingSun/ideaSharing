@@ -40,68 +40,73 @@ public class IdeaResource {
     @Inject
     private UserRepository userRepository;
 
-    /**
-     * GET /ideas{?user_id} -> Get user's ideas..
-     */
-    @RequestMapping(value = "/ideas/{user_id}",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-
-    public ResponseEntity<List<Idea>> getIdeasByUser(@PathVariable Long user_id) throws URISyntaxException {
-        log.debug("REST request to get Ideas of a user : {}", user_id);
-        User user = userRepository.findOne(user_id);
-        List<Idea> list = ideaRepository.findAllByUser_id(user);
-//        for(int i = list.size() - 1 ; i >= 0 ; i --){
-//            Idea idea = list.get(i);
-//            if(idea.getUser().getId() != user_id){
-//                list.remove(i);
-//            }
-//        }
-
-        return Optional.ofNullable(list)
-                .map(user_ideas -> new ResponseEntity<>(
-                        list,
-                        HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+//    /**
+//     * GET /ideas{?user_id} -> Get user's ideas..
+//     */
+//    @RequestMapping(value = "/ideas/user/{user_id}",
+//            method = RequestMethod.GET,
+//            produces = MediaType.APPLICATION_JSON_VALUE)
+//
+//    public ResponseEntity<List<Idea>> getIdeasByUser(@PathVariable Long user_id , @RequestParam (value ="user_id",required = false) long user_id ) throws URISyntaxException {
+//        log.debug("REST request to get Ideas of a user : {}", user_id);
+//        User user = userRepository.findOne(user_id);
+//        List<Idea> list = ideaRepository.findAllByUser_id(user);
+////        for(int i = list.size() - 1 ; i >= 0 ; i --){
+////            Idea idea = list.get(i);
+////            if(idea.getUser().getId() != user_id){
+////                list.remove(i);
+////            }
+////        }
+//
+//        return Optional.ofNullable(list)
+//                .map(user_ideas -> new ResponseEntity<>(
+//                        list,
+//                        HttpStatus.OK))
+//                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+//    }
 
     /**
      * POST  /ideas -> Create a new idea.
      */
-    @RequestMapping(value = "/ideas",
+    @RequestMapping(value = "/ideas*",
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<Idea> createIdea(@RequestBody Idea idea) throws URISyntaxException {
+    public ResponseEntity<Idea> createIdea(@RequestBody Idea idea, @RequestParam (value ="user_id") long user_id) throws URISyntaxException {
         log.debug("REST request to save Idea : {}", idea);
+
         if (idea.getId() != null) {
             return ResponseEntity.badRequest().header("Failure", "A new idea cannot already have an ID").body(null);
         }
+
+        User user = userRepository.findOne(user_id);
+        if(user == null)  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        idea.setUser(user);
         Idea result = ideaRepository.save(idea);
         return ResponseEntity.created(new URI("/api/ideas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("idea", result.getId().toString()))
             .body(result);
     }
 
-    /**
-     * POST /ideas{?user_id} -> Create a new idea by the user..
-     */
-    @RequestMapping(value = "/ideas/{user_id}",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-
-    public ResponseEntity<Idea> createIdeaByUser(@PathVariable Long user_id , @Valid @RequestBody Idea idea) throws URISyntaxException {
-        log.debug("REST request to create an idea by a user : {}", user_id);
-        if (idea.getId() != null) {
-            return ResponseEntity.badRequest().header("Failure", "A new idea cannot already have an ID").body(null);
-        }
-
-        idea.setUser(userRepository.findOne(user_id));
-        Idea result = ideaRepository.save(idea);
-        return ResponseEntity.created(new URI("/api/ideas/{user_id}/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert("idea", result.getId().toString()))
-                .body(result);
-    }
+//    /**
+//     * POST /ideas{?user_id} -> Create a new idea by the user..
+//     */
+//    @RequestMapping(value = "/ideas{?user_id}",
+//            method = RequestMethod.POST,
+//            produces = MediaType.APPLICATION_JSON_VALUE)
+//
+//    public ResponseEntity<Idea> createIdeaByUser(@PathVariable Long user_id , @Valid @RequestBody Idea idea) throws URISyntaxException {
+//        log.debug("REST request to create an idea by a user : {}", user_id);
+//        if (idea.getId() != null) {
+//            return ResponseEntity.badRequest().header("Failure", "A new idea cannot already have an ID").body(null);
+//        }
+//
+//        idea.setUser(userRepository.findOne(user_id));
+//        Idea result = ideaRepository.save(idea);
+//        return ResponseEntity.created(new URI("/api/ideas/{user_id}/" + result.getId()))
+//                .headers(HeaderUtil.createEntityCreationAlert("idea", result.getId().toString()))
+//                .body(result);
+//    }
 
     /**
      * PUT  /ideas -> Updates an existing idea.
@@ -112,8 +117,11 @@ public class IdeaResource {
 
     public ResponseEntity<Idea> updateIdea(@Valid @RequestBody Idea idea) throws URISyntaxException {
         log.debug("REST request to update Idea : {}", idea);
+        if(idea.getUser().getId() == null){
+            return ResponseEntity.badRequest().header("Failure", "This user does not exist").body(null);
+        }
         if (idea.getId() == null) {
-            return createIdea(idea);
+            return createIdea(idea , idea.getUser().getId());
         }
         Idea result = ideaRepository.save(idea);
         return ResponseEntity.ok()
@@ -128,11 +136,25 @@ public class IdeaResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<List<Idea>> getAllIdeas(Pageable pageable)
+    public ResponseEntity<List<Idea>> getAllIdeas(Pageable pageable , @RequestParam (value ="user_id",required = false) String user_id)
         throws URISyntaxException {
-        Page<Idea> page = ideaRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/ideas");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        if(user_id == null){
+            Page<Idea> page = ideaRepository.findAll(pageable);
+            log.debug("sss"+user_id);
+            HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/ideas");
+            return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        }else{
+
+            User user = userRepository.findOne(Long.parseLong(user_id));
+            if(user == null)  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            List<Idea> list = ideaRepository.findAllByUser_id(user);
+            return Optional.ofNullable(list)
+                .map(user_ideas -> new ResponseEntity<>(
+                        list,
+                        HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        }
+
     }
 
     /**
@@ -163,4 +185,7 @@ public class IdeaResource {
         ideaRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("idea", id.toString())).build();
     }
+
+
+
 }

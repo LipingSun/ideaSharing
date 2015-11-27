@@ -111,6 +111,29 @@ public class Idea implements Serializable {
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getProblem() {
+        return problem;
+    }
+
+    public void setProblem(String problem) {
+        this.problem = problem;
+    }
+
+    public String getSolution() {
+        return solution;
+    }
+
+    public void setSolution(String solution) {
+        this.solution = solution;
+    }
 
     @Override
     public boolean equals(Object o) {
