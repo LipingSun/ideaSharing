@@ -6,7 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.Objects;
 
 /**
- * A UserReadIdea.
+ * A UserReadIdea. Chang's part
  */
 @Entity
 @Table(name = "user_read_idea")
