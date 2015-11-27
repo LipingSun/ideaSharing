@@ -38,7 +38,8 @@ public class UserResource {
      */
     @RequestMapping(value = "/users",
         method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE)
 
     public ResponseEntity<User> createUser(@Valid @RequestBody User user) throws URISyntaxException {
         log.debug("REST request to save User : {}", user);
