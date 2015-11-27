@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * REST controller for managing UserReadIdea.
+ * REST controller for managing UserReadIdea. Chang's part
  */
 @RestController
 @RequestMapping("/api")
