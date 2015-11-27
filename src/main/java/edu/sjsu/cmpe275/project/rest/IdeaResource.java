@@ -72,7 +72,7 @@ public class IdeaResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<Idea> createIdea(@Valid @RequestBody Idea idea) throws URISyntaxException {
+    public ResponseEntity<Idea> createIdea(@RequestBody Idea idea) throws URISyntaxException {
         log.debug("REST request to save Idea : {}", idea);
         if (idea.getId() != null) {
             return ResponseEntity.badRequest().header("Failure", "A new idea cannot already have an ID").body(null);
