@@ -101,7 +101,11 @@ public class CategoryResource {
 
     public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         log.debug("REST request to delete Category : {}", id);
-        categoryRepository.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("category", id.toString())).build();
+        if (categoryRepository.findOne(id) != null){
+            categoryRepository.delete(id);
+            return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("category", id.toString())).build();
+        }
+        //specified id doesn't exist
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
