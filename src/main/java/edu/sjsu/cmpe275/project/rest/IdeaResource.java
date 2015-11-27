@@ -1,7 +1,9 @@
 package edu.sjsu.cmpe275.project.rest;
 
+import edu.sjsu.cmpe275.project.domain.Category;
 import edu.sjsu.cmpe275.project.domain.Idea;
 import edu.sjsu.cmpe275.project.domain.User;
+import edu.sjsu.cmpe275.project.repository.CategoryRepository;
 import edu.sjsu.cmpe275.project.repository.IdeaRepository;
 import edu.sjsu.cmpe275.project.repository.UserRepository;
 import edu.sjsu.cmpe275.project.rest.util.HeaderUtil;
@@ -39,6 +41,8 @@ public class IdeaResource {
     private IdeaRepository ideaRepository;
     @Inject
     private UserRepository userRepository;
+
+    private CategoryResource categoryResource;
 
 //    /**
 //     * GET /ideas{?user_id} -> Get user's ideas..
@@ -187,5 +191,11 @@ public class IdeaResource {
     }
 
 
+//    @RequestMapping(value = "/ideas", method = RequestMethod.GET, params = {"category_id","order"}, produces = MediaType.APPLICATION_XML_VALUE)
+//    public ResponseEntity<Void> getIdeasByCatagory() {
+//        log.debug("REST request to get Ideas by catagory : {}");
+//        Category cat = categoryResource.getCategory(category_id);
+//        return null;
+//    }
 
 }
