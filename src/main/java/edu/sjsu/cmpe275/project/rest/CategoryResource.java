@@ -29,9 +29,9 @@ public class CategoryResource {
     private CategoryRepository categoryRepository;
 
     /**
-     * POST  /categorys -> Create a new category.
+     * POST  /categories -> Create a new category.
      */
-    @RequestMapping(value = "/categorys",
+    @RequestMapping(value = "/categories",
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
@@ -41,15 +41,15 @@ public class CategoryResource {
             return ResponseEntity.badRequest().header("Failure", "A new category cannot already have an ID").body(null);
         }
         Category result = categoryRepository.save(category);
-        return ResponseEntity.created(new URI("/api/categorys/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/categories/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("category", result.getId().toString()))
             .body(result);
     }
 
     /**
-     * PUT  /categorys -> Updates an existing category.
+     * PUT  /categories -> Updates an existing category.
      */
-    @RequestMapping(value = "/categorys",
+    @RequestMapping(value = "/categories",
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
@@ -65,21 +65,21 @@ public class CategoryResource {
     }
 
     /**
-     * GET  /categorys -> get all the categorys.
+     * GET  /categories -> get all the categories.
      */
-    @RequestMapping(value = "/categorys",
+    @RequestMapping(value = "/categories",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public List<Category> getAllCategorys() {
-        log.debug("REST request to get all Categorys");
+    public List<Category> getAllCategories() {
+        log.debug("REST request to get all Categories");
         return categoryRepository.findAll();
     }
 
     /**
-     * GET  /categorys/:id -> get the "id" category.
+     * GET  /categories/:id -> get the "id" category.
      */
-    @RequestMapping(value = "/categorys/{id}",
+    @RequestMapping(value = "/categories/{id}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
@@ -93,13 +93,13 @@ public class CategoryResource {
     }
 
     /**
-     * DELETE  /categorys/:id -> delete the "id" category.
+     * DELETE  /categories/:id -> delete the "id" category.
      */
-    @RequestMapping(value = "/categorys/{id}",
+    @RequestMapping(value = "/categories/{id}",
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         log.debug("REST request to delete Category : {}", id);
         categoryRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("category", id.toString())).build();
