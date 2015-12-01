@@ -10,6 +10,8 @@ import edu.sjsu.cmpe275.project.rest.util.HeaderUtil;
 import edu.sjsu.cmpe275.project.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.DebuggingClassWriter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -39,38 +41,16 @@ public class IdeaResource {
 
     @Inject
     private IdeaRepository ideaRepository;
+
     @Inject
     private UserRepository userRepository;
 
-    private CategoryResource categoryResource;
+    @Inject
+    private CategoryRepository categoryRepository;
 
-//    /**
-//     * GET /ideas{?user_id} -> Get user's ideas..
-//     */
-//    @RequestMapping(value = "/ideas/user/{user_id}",
-//            method = RequestMethod.GET,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//
-//    public ResponseEntity<List<Idea>> getIdeasByUser(@PathVariable Long user_id , @RequestParam (value ="user_id",required = false) long user_id ) throws URISyntaxException {
-//        log.debug("REST request to get Ideas of a user : {}", user_id);
-//        User user = userRepository.findOne(user_id);
-//        List<Idea> list = ideaRepository.findAllByUser_id(user);
-////        for(int i = list.size() - 1 ; i >= 0 ; i --){
-////            Idea idea = list.get(i);
-////            if(idea.getUser().getId() != user_id){
-////                list.remove(i);
-////            }
-////        }
-//
-//        return Optional.ofNullable(list)
-//                .map(user_ideas -> new ResponseEntity<>(
-//                        list,
-//                        HttpStatus.OK))
-//                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-//    }
 
     /**
-     * POST  /ideas -> Create a new idea.
+     * POST  /ideas -> Create a new idea by a user.
      */
     @RequestMapping(value = "/ideas*",
         method = RequestMethod.POST,
@@ -82,49 +62,30 @@ public class IdeaResource {
         if (idea.getId() != null) {
             return ResponseEntity.badRequest().header("Failure", "A new idea cannot already have an ID").body(null);
         }
-
         User user = userRepository.findOne(user_id);
+
         if(user == null)  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         idea.setUser(user);
         Idea result = ideaRepository.save(idea);
         return ResponseEntity.created(new URI("/api/ideas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("idea", result.getId().toString()))
+
             .body(result);
     }
-
-//    /**
-//     * POST /ideas{?user_id} -> Create a new idea by the user..
-//     */
-//    @RequestMapping(value = "/ideas{?user_id}",
-//            method = RequestMethod.POST,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//
-//    public ResponseEntity<Idea> createIdeaByUser(@PathVariable Long user_id , @Valid @RequestBody Idea idea) throws URISyntaxException {
-//        log.debug("REST request to create an idea by a user : {}", user_id);
-//        if (idea.getId() != null) {
-//            return ResponseEntity.badRequest().header("Failure", "A new idea cannot already have an ID").body(null);
-//        }
-//
-//        idea.setUser(userRepository.findOne(user_id));
-//        Idea result = ideaRepository.save(idea);
-//        return ResponseEntity.created(new URI("/api/ideas/{user_id}/" + result.getId()))
-//                .headers(HeaderUtil.createEntityCreationAlert("idea", result.getId().toString()))
-//                .body(result);
-//    }
 
     /**
      * PUT  /ideas -> Updates an existing idea.
      */
-    @RequestMapping(value = "/ideas",
-        method = RequestMethod.PUT,
+    @RequestMapping(value = "/ideas/{id}",
+        method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<Idea> updateIdea(@Valid @RequestBody Idea idea) throws URISyntaxException {
+    public ResponseEntity<Idea> updateIdea(@Valid @RequestBody Idea idea, @PathVariable("id") long id ) throws URISyntaxException {
         log.debug("REST request to update Idea : {}", idea);
-        if(idea.getUser().getId() == null){
-            return ResponseEntity.badRequest().header("Failure", "This user does not exist").body(null);
+        if(idea.getUser() == null){
+            return ResponseEntity.badRequest().header("Failure", "This idea does not have a owner").body(null);
         }
-        if (idea.getId() == null) {
+        if (idea.getId() == null || ideaRepository.findOne(idea.getId()) == null) {
             return createIdea(idea , idea.getUser().getId());
         }
         Idea result = ideaRepository.save(idea);
@@ -134,7 +95,7 @@ public class IdeaResource {
     }
 
     /**
-     * GET  /ideas -> get all the ideas.
+     * GET  /ideas -> get all the ideas ( of a user).
      */
     @RequestMapping(value = "/ideas",
         method = RequestMethod.GET,
@@ -144,7 +105,7 @@ public class IdeaResource {
         throws URISyntaxException {
         if(user_id == null){
             Page<Idea> page = ideaRepository.findAll(pageable);
-            log.debug("sss"+user_id);
+//            log.debug("sss"+user_id);
             HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/ideas");
             return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
         }else{
@@ -186,16 +147,22 @@ public class IdeaResource {
 
     public ResponseEntity<Void> deleteIdea(@PathVariable Long id) {
         log.debug("REST request to delete Idea : {}", id);
+        if(ideaRepository.findOne(id) == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         ideaRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("idea", id.toString())).build();
     }
 
 
-//    @RequestMapping(value = "/ideas", method = RequestMethod.GET, params = {"category_id","order"}, produces = MediaType.APPLICATION_XML_VALUE)
-//    public ResponseEntity<Void> getIdeasByCatagory() {
-//        log.debug("REST request to get Ideas by catagory : {}");
-//        Category cat = categoryResource.getCategory(category_id);
-//        return null;
-//    }
+    @RequestMapping(value = "/ideas", method = RequestMethod.GET, params = {"category_id","order"}, produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<List<Idea>> getIdeasByCatagory(@RequestParam("category_id") long category , @RequestParam("order") String ord) {
+        log.debug("REST request to get Ideas by catagory : {}");
+        Category cat = categoryRepository.findOne(category);
+        if(cat == null) {
+            return ResponseEntity.badRequest().header("Failure", "This category does not exist").body(null);
+        }
+//        List<Idea> ideas = IdeaRepository.
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
 }
