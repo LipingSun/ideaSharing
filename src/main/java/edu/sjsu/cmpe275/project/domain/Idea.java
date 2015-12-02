@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -35,6 +36,9 @@ public class Idea implements Serializable {
     @NotNull
     @Column(name = "solution")
     private String solution;
+
+    @Column(name = "datetime")
+    private ZonedDateTime datetime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -158,5 +162,13 @@ public class Idea implements Serializable {
             "id=" + id +
             ", title='" + title + "'" +
             '}';
+    }
+
+    public ZonedDateTime getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(ZonedDateTime datetime) {
+        this.datetime = datetime;
     }
 }
