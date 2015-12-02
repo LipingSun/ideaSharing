@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +46,7 @@ public class UserResource {
         if (user.getId() != null) {
             return ResponseEntity.badRequest().header("Failure", "A new user cannot already have an ID").body(null);
         }
+        user.setDateTime(ZonedDateTime.now());
         User result = userRepository.save(user);
 //        return ResponseEntity.created(new URI("/api/users/" + result.getId()))
 //            .headers(HeaderUtil.createEntityCreationAlert("user", result.getId().toString()))
