@@ -1,6 +1,8 @@
 package edu.sjsu.cmpe275.project.Idea_Test;
 
 import edu.sjsu.cmpe275.project.rest.IdeaResource;
+import org.junit.Test;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -12,15 +14,28 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 /**
  * Created by xiaotong on 11/25/15.
  */
+
 public class IdeaTest {
     private final MockMvc mockMvc = standaloneSetup(new IdeaResource()).build();
 
-
+    @Test
+    public void contextLoads() {
+    }
     @org.junit.Test
     public void testCreateIdeas() throws Exception{
-        mockMvc.perform(MockMvcRequestBuilders.post("api/ideas"))
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/ideas?user_id=1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+
+                        "  \"title\": \"Fly Jacket\",\n" +
+                        "  \"description\": \"This is a jacket which enable flying\",\n" +
+                        "  \"problem\": \"People cannot fly\",\n" +
+                        "  \"solution\": \"Use Fly Jacket\"\n" +
+                        "}"))
                 .andDo(print())
-                .andExpect(status().isOk())
+//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
                 .andExpect(jsonPath("title").value("Fly Jacket"));
     }
 

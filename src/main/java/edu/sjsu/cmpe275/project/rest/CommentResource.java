@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.ZonedDateTime;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
-
+import java.time.format.DateTimeFormatter;
 /**
  * REST controller for managing Comment.
  */
@@ -38,13 +40,13 @@ public class CommentResource {
     private IdeaRepository ideaRepository;
 
     /**
-     * POST  /{idea_id}/comments -> Create a new comment of an idea.
+     * POST  /ideas/{idea_id}/comments -> Create a new comment of an idea.
      */
-    @RequestMapping(value = "/{idea_id}/comments",
+    @RequestMapping(value = "/ideas/{idea_id}/comments",
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<Comment> createComment(@RequestBody Comment comment , @PathVariable("id") long idea_id) throws URISyntaxException {
+    public ResponseEntity<Comment> createComment(@RequestBody Comment comment , @PathVariable("idea_id") long idea_id) throws URISyntaxException {
         log.debug("REST request to save Comment : {}", comment);
 
         if (comment.getId() != null) {
@@ -56,51 +58,52 @@ public class CommentResource {
             return ResponseEntity.badRequest().header("Failure", "Thia idea does not exist").body(null);
         }
         comment.setIdea(idea);
+        comment.setTime(ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         Comment result = commentRepository.save(comment);
-        return ResponseEntity.created(new URI("/api/{idea_id}/comments/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/"+idea_id+"/comments/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("comment", result.getId().toString()))
             .body(result);
     }
 
+//    /**
+//     * PUT   /ideas/{idea_id}/comments -> Updates an existing comment of an idea.
+//     */
+//    @RequestMapping(value = "/ideas/{idea_id}/comments",
+//        method = RequestMethod.PUT,
+//        produces = MediaType.APPLICATION_JSON_VALUE)
+//
+//    public ResponseEntity<Comment> updateComment(@RequestBody Comment comment , @PathVariable("idea_id") long idea_id) throws URISyntaxException {
+//        log.debug("REST request to update Comment : {}", comment);
+//        if (comment.getId() == null) {
+//            return createComment(comment,idea_id);
+//        }
+//
+//        Idea idea = ideaRepository.findOne(idea_id);
+//
+//        if(idea == null) {
+//            return ResponseEntity.badRequest().header("Failure", "Thia idea does not exist").body(null);
+//        }
+//        comment.setIdea(idea);
+//        Comment result = commentRepository.save(comment);
+//        return ResponseEntity.ok()
+//            .headers(HeaderUtil.createEntityUpdateAlert("comment", comment.getId().toString()))
+//            .body(result);
+//    }
+
     /**
-     * PUT   /{idea_id}/comments -> Updates an existing comment of an idea.
+     * GET   /ideas/{idea_id}/comments -> get all the comments of an idea.
      */
-    @RequestMapping(value = "/{idea_id}/comments",
-        method = RequestMethod.PUT,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-
-    public ResponseEntity<Comment> updateComment(@RequestBody Comment comment , @PathVariable("id") long idea_id) throws URISyntaxException {
-        log.debug("REST request to update Comment : {}", comment);
-        if (comment.getId() == null) {
-            return createComment(comment,idea_id);
-        }
-
-        Idea idea = ideaRepository.findOne(idea_id);
-
-        if(idea == null) {
-            return ResponseEntity.badRequest().header("Failure", "Thia idea does not exist").body(null);
-        }
-        comment.setIdea(idea);
-        Comment result = commentRepository.save(comment);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("comment", comment.getId().toString()))
-            .body(result);
-    }
-
-    /**
-     * GET   /{idea_id}/comments -> get all the comments of an idea.
-     */
-    @RequestMapping(value = "/{idea_id}/comments",
+    @RequestMapping(value = "/ideas/{idea_id}/comments",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<List<Comment>> getAllComments(Pageable pageable , @PathVariable("id") long idea_id)
+    public ResponseEntity<List<Comment>> getAllComments(Pageable pageable , @PathVariable("idea_id") long idea_id)
         throws URISyntaxException {
 //        Page<Comment> page = commentRepository.findAllByIdea_id(pageable);
 //        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/{idea_id}/comments");
 //        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
         Idea idea = ideaRepository.findOne(idea_id);
-
+        log.debug("The idea is" + idea);
         if(idea == null) {
             return ResponseEntity.badRequest().header("Failure", "Thia idea does not exist").body(null);
         }
@@ -114,13 +117,13 @@ public class CommentResource {
     }
 
     /**
-     * GET   /{idea_id}/comments/:id -> get the "id" comment of an idea.
+     * GET   /ideas/{idea_id}/comments/:id -> get the "id" comment of an idea.
      */
-    @RequestMapping(value = "/{idea_id}/comments/{id}",
+    @RequestMapping(value = "/ideas/{idea_id}/comments/{id}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<Comment> getComment(@PathVariable("id") Long id , @PathVariable("id") long idea_id) {
+    public ResponseEntity<Comment> getComment(@PathVariable("id") Long id , @PathVariable("idea_id") long idea_id) {
         log.debug("REST request to get Comment : {}", id);
         return Optional.ofNullable(commentRepository.findOne(id))
             .map(comment -> new ResponseEntity<>(
@@ -130,13 +133,13 @@ public class CommentResource {
     }
 
     /**
-     * DELETE  /comments/:id -> delete the "id" comment.
+     * DELETE  /ideas/comments/:id -> delete the "id" comment.
      */
-    @RequestMapping(value = "/{idea_id}/comments/{id}",
+    @RequestMapping(value = "/ideas/{idea_id}/comments/{id}",
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<Void> deleteComment(@PathVariable("id") Long id , @PathVariable("id") long idea_id) {
+    public ResponseEntity<Void> deleteComment(@PathVariable("id") Long id , @PathVariable("idea_id") long idea_id) {
         log.debug("REST request to delete Comment : {}", id);
         commentRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("comment", id.toString())).build();

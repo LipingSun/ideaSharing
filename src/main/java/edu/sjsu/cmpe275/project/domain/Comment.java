@@ -1,10 +1,17 @@
 package edu.sjsu.cmpe275.project.domain;
 
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
+//import javax.annotation.Generated;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
 import java.util.Objects;
+import org.hibernate.annotations.GenerationTime;
+
 
 /**
  * A Comment.
@@ -20,8 +27,10 @@ public class Comment implements Serializable {
     @Column(name = "content")
     private String content;
 
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @Generated(GenerationTime.INSERT)
     @Column(name = "time")
-    private ZonedDateTime time;
+    private String time;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -47,11 +56,11 @@ public class Comment implements Serializable {
         this.content = content;
     }
 
-    public ZonedDateTime getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(ZonedDateTime time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
