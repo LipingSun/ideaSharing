@@ -115,6 +115,7 @@ public class Idea implements Serializable {
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
+
     public String getDescription() {
         return description;
     }
@@ -170,5 +171,9 @@ public class Idea implements Serializable {
 
     public void setDatetime(ZonedDateTime datetime) {
         this.datetime = datetime;
+    }
+
+    public int getLikeCount() {
+        return userLikedIdeas.size();
     }
 }
