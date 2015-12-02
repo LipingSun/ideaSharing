@@ -1,7 +1,11 @@
 package edu.sjsu.cmpe275.project.rest;
 
+import edu.sjsu.cmpe275.project.domain.Idea;
+import edu.sjsu.cmpe275.project.domain.User;
 import edu.sjsu.cmpe275.project.domain.UserReadIdea;
+import edu.sjsu.cmpe275.project.repository.IdeaRepository;
 import edu.sjsu.cmpe275.project.repository.UserReadIdeaRepository;
+import edu.sjsu.cmpe275.project.repository.UserRepository;
 import edu.sjsu.cmpe275.project.rest.util.HeaderUtil;
 import edu.sjsu.cmpe275.project.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -31,6 +35,12 @@ public class UserReadIdeaResource {
 
     @Inject
     private UserReadIdeaRepository userReadIdeaRepository;
+
+    @Inject
+    private UserRepository userRepository;
+
+    @Inject
+    private IdeaRepository ideaRepository;
 
     /**
      * POST  /userReadIdeas -> Create a new userReadIdea.
@@ -96,6 +106,74 @@ public class UserReadIdeaResource {
                 userReadIdea,
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    /**
+     * GET  /users/{user_id}/read -> get all userReadIdeas (ideas) from a specific user through user_id.
+     */
+    @RequestMapping(value = "users/{user_id}/read",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+
+    public List<UserReadIdea> getReadIdeas(@PathVariable Long user_id) {
+        log.debug("REST request to get user_id based UserReadIdea : {}", user_id);
+        User user = userRepository.findOne(user_id);
+        return userReadIdeaRepository.findByUser(user);
+    }
+
+    /**
+     * GET  /ideas/{idea_id}/read -> get all userReadIdeas(users) those have read a specific idea through idea_id.
+     */
+    @RequestMapping(value = "ideas/{idea_id}/read",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+
+    public List<UserReadIdea> getUsers(@PathVariable Long idea_id) {
+        log.debug("REST request to get idea_id based UserReadIdea :{}", idea_id);
+        Idea idea = ideaRepository.findOne(idea_id);
+        return userReadIdeaRepository.findByIdea(idea);
+    }
+
+    /**
+     * PUT  /read/{idea_id}/{user_id} -> create an entry with a specific pair of idea_id and user_id.
+     */
+    @RequestMapping(value = "read/{idea_id}/{user_id}",
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserReadIdea> createUserReadIdea(@PathVariable Long idea_id, @PathVariable Long user_id) throws URISyntaxException{
+        log.debug("REST request to create UserLikedIdea : {} : {}", idea_id, user_id);
+        UserReadIdea userReadIdea = new UserReadIdea();
+        User user = userRepository.findOne(user_id);
+        Idea idea = ideaRepository.findOne(idea_id);
+        userReadIdea.setUser(user);
+        userReadIdea.setIdea(idea);
+        return ResponseEntity.ok().
+                headers(HeaderUtil.createEntityUpdateAlert("userReadIdea", userReadIdea.getId().toString()))
+                .body(userReadIdea);
+    }
+
+    /**
+     * DELETE  /read/{idea_id}/{user_id} -> Delete an entry with a specific pair of idea_id and user_id.
+     */
+    @RequestMapping(value = "read/{idea_id}/{user_id}",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+
+    public ResponseEntity<Void> deleteUserReadIdea(@PathVariable Long idea_id, @PathVariable Long user_id) {
+        log.debug("REST request to delete the pair UserReadIdea : {} : {}", idea_id, user_id);
+        Idea idea = ideaRepository.findOne(idea_id);
+        List<UserReadIdea> userReadIdeaList = userReadIdeaRepository.findByIdea(idea);
+        UserReadIdea target = new UserReadIdea();
+        for (UserReadIdea item : userReadIdeaList) {
+            if(item.getUser() == userRepository.findOne(user_id)) {
+                target = item;
+                break;
+            }
+        }
+
+        Long id = target.getId();
+        userReadIdeaRepository.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("userReadIdea", id.toString())).build();
     }
 
     /**
