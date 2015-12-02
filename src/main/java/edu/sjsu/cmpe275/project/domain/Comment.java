@@ -1,17 +1,10 @@
 package edu.sjsu.cmpe275.project.domain;
 
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-
-//import javax.annotation.Generated;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.Calendar;
 import java.util.Objects;
-import org.hibernate.annotations.GenerationTime;
-
 
 /**
  * A Comment.
@@ -27,14 +20,12 @@ public class Comment implements Serializable {
     @Column(name = "content")
     private String content;
 
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @Generated(GenerationTime.INSERT)
     @Column(name = "time")
-    private String time;
+    private ZonedDateTime datetime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private User commenter;
 
     @ManyToOne
     @JoinColumn(name = "idea_id")
@@ -54,22 +45,6 @@ public class Comment implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Idea getIdea() {
@@ -102,7 +77,23 @@ public class Comment implements Serializable {
         return "Comment{" +
             "id=" + id +
             ", content='" + content + "'" +
-            ", time='" + time.toString() + "'" +
+            ", time='" + datetime.toString() + "'" +
             "}";
+    }
+
+    public ZonedDateTime getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(ZonedDateTime datetime) {
+        this.datetime = datetime;
+    }
+
+    public User getCommenter() {
+        return commenter;
+    }
+
+    public void setCommenter(User commenter) {
+        this.commenter = commenter;
     }
 }
