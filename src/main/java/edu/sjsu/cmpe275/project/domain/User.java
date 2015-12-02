@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -36,6 +37,9 @@ public class User implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "created_datetime")
+    private ZonedDateTime dateTime;
+
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<Idea> ideas = new HashSet<>();
@@ -48,7 +52,7 @@ public class User implements Serializable {
     @JsonIgnore
     private Set<UserLikedIdea> userLikedIdeas = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "commenter")
     @JsonIgnore
     private Set<Comment> comments = new HashSet<>();
 
@@ -147,5 +151,13 @@ public class User implements Serializable {
             "id=" + id +
             ", username='" + username + "'" +
             '}';
+    }
+
+    public ZonedDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(ZonedDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 }
