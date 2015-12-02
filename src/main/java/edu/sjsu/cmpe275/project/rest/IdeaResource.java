@@ -10,10 +10,7 @@ import edu.sjsu.cmpe275.project.rest.util.HeaderUtil;
 import edu.sjsu.cmpe275.project.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.DebuggingClassWriter;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,8 +22,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,6 +62,7 @@ public class IdeaResource {
 
         if(user == null)  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         idea.setUser(user);
+        idea.setDatetime(ZonedDateTime.now());
         Idea result = ideaRepository.save(idea);
         return ResponseEntity.created(new URI("/api/ideas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("idea", result.getId().toString()))
