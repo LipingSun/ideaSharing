@@ -25,12 +25,7 @@ angular
                 controller: 'HomeCtrl',
                 controllerAs: 'home'
             })
-            .when('/about', {
-                templateUrl: 'views/about.html',
-                controller: 'AboutCtrl',
-                controllerAs: 'about'
-            })
-            .when('/idea', {
+            .when('/ideas/:ideaId', {
                 templateUrl: 'views/idea.html',
                 controller: 'IdeaCtrl',
                 controllerAs: 'idea'
