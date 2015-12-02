@@ -30,11 +30,11 @@ public class Idea implements Serializable {
     private String description;
 
     @NotNull
-    @Column(name = "problem", nullable = false)
+    @Column(name = "problem", nullable = false, columnDefinition="text")
     private String problem;
 
     @NotNull
-    @Column(name = "solution")
+    @Column(name = "solution", columnDefinition="text")
     private String solution;
 
     @Column(name = "datetime")
