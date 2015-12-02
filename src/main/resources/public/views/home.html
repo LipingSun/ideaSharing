@@ -17,68 +17,22 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <div class="post-preview">
-                <a href="#idea">
-                    <h2 class="pos  t-title">
-                        VR Projector
+
+            <div class="post-preview" ng-repeat="idea in home.ideas">
+                <a href="#ideas/{{idea.id}}">
+                    <h2 class="post-title">
+                        {{idea.title}}
                     </h2>
 
                     <h3 class="post-subtitle">
-                        The Projector beams VR into an entire room.
+                        {{idea.description}}
                     </h3>
                 </a>
 
-                <p class="post-meta">Posted by <a href="#">Liping</a> on August 24, 2014</p>
+                <p class="post-meta">Posted by <a href="#">{{idea.user.username}}</a> on {{idea.datetimeString}}</p>
+                <hr>
             </div>
-            <hr>
-            <div class="post-preview">
-                <a href="#idea">
-                    <h2 class="post-title">
-                        A kind of cloth that changes styles everyday
-                    </h2>
-                </a>
 
-                <p class="post-meta">Posted by <a href="#">Chang</a> on September 18, 2015</p>
-            </div>
-            <hr>
-            <div class="post-preview">
-                <a href="#idea">
-                    <h2 class="post-title">
-                        Urban breathing mask
-                    </h2>
-
-                    <h3 class="post-subtitle">
-                        The urban breathing mask for health-conscious global citizens.
-                    </h3>
-                </a>
-
-                <p class="post-meta">Posted by <a href="#">Xiaotong</a> on July 8, 2015</p>
-            </div>
-            <hr>
-            <div class="post-preview">
-                <a href="#idea">
-                    <h2 class="post-title">
-                        Grove Ecosystem
-                    </h2>
-
-                    <h3 class="post-subtitle">
-                        Grow fresh food in your home.
-                    </h3>
-                </a>
-
-                <p class="post-meta">Posted by <a href="#">Lijuan</a> on July 8, 2015</p>
-            </div>
-            <hr>
-            <div class="post-preview">
-                <a href="#idea">
-                    <h2 class="post-title">
-                        A Flying Jacket can make people explore sky
-                    </h2>
-                </a>
-
-                <p class="post-meta">Posted by <a href="#">Jianxin</a> on September 24, 2015</p>
-            </div>
-            <hr>
             <!-- Pager -->
             <ul class="pager">
                 <li class="next">
