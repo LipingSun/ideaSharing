@@ -2,15 +2,14 @@ package edu.sjsu.cmpe275.project.rest;
 
 import edu.sjsu.cmpe275.project.domain.Comment;
 import edu.sjsu.cmpe275.project.domain.Idea;
+import edu.sjsu.cmpe275.project.domain.User;
 import edu.sjsu.cmpe275.project.repository.CommentRepository;
 import edu.sjsu.cmpe275.project.repository.IdeaRepository;
+import edu.sjsu.cmpe275.project.repository.UserRepository;
 import edu.sjsu.cmpe275.project.rest.util.HeaderUtil;
-import edu.sjsu.cmpe275.project.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +19,8 @@ import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
-import java.time.format.DateTimeFormatter;
 /**
  * REST controller for managing Comment.
  */
@@ -38,6 +35,9 @@ public class CommentResource {
 
     @Inject
     private IdeaRepository ideaRepository;
+
+    @Inject
+    private UserRepository userRepository;
 
     /**
      * POST  /ideas/{idea_id}/comments -> Create a new comment of an idea.
@@ -57,8 +57,11 @@ public class CommentResource {
         if(idea == null) {
             return ResponseEntity.badRequest().header("Failure", "Thia idea does not exist").body(null);
         }
+
+        User commenter = userRepository.findOne((long) 1);
         comment.setIdea(idea);
-        comment.setTime(ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        comment.setDatetime(ZonedDateTime.now());
+        comment.setCommenter(commenter);
         Comment result = commentRepository.save(comment);
         return ResponseEntity.created(new URI("/api/"+idea_id+"/comments/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("comment", result.getId().toString()))
