@@ -30,6 +30,11 @@ angular
                 controller: 'IdeaCtrl',
                 controllerAs: 'idea'
             })
+            .when('/share-idea', {
+              templateUrl: 'views/share-idea.html',
+              controller: 'ShareIdeaCtrl',
+              controllerAs: 'shareIdea'
+            })
             .otherwise({
                 redirectTo: '/'
             });
