@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -127,14 +128,61 @@ public class UserLikedIdeaResource {
         return userLikedIdeaRepository.findByIdea(idea);
     }
 
-
+//start from here to continue, hasn't been tested with postman yet
     /**
      * PUT  /like/{idea_id}/{user_id} -> create an entry with a specific pair of idea_id and user_id.
      */
+    @RequestMapping(value = "like/{idea_id}/{user_id}",
+                    method = RequestMethod.PUT,
+                    produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserLikedIdea> createUserLikedIdea(@PathVariable Long idea_id, @PathVariable Long user_id) throws URISyntaxException{
+        log.debug("REST request to create UserLikedIdea : {} : {}", idea_id, user_id);
+        UserLikedIdea userLikedIdea = new UserLikedIdea();
+        User user = userRepository.findOne(user_id);
+        Idea idea = ideaRepository.findOne(idea_id);
+        userLikedIdea.setUser(user);
+        userLikedIdea.setIdea(idea);
+        return ResponseEntity.ok().
+                headers(HeaderUtil.createEntityUpdateAlert("userLikedIdea", userLikedIdea.getId().toString()))
+                .body(userLikedIdea);
+    }
+//    /**
+//     * PUT  /users -> Updates an existing user.
+//     */
+//    public ResponseEntity<User> updateUser(@Valid @RequestBody User user) throws URISyntaxException {
+//        log.debug("REST request to update User : {}", user);
+//        if (user.getId() == null) {
+//            return createUser(user);
+//        }
+//        User result = userRepository.save(user);
+//        return ResponseEntity.ok()
+//                .headers(HeaderUtil.createEntityUpdateAlert("user", user.getId().toString()))
+//                .body(result);
+//    }
 
     /**
      * DELETE  /like/{idea_id}/{user_id} -> Delete an entry with a specific pair of idea_id and user_id.
      */
+    @RequestMapping(value = "like/{idea_id}/{user_id}",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+
+    public ResponseEntity<Void> deleteUserLikedIdea(@PathVariable Long idea_id, @PathVariable Long user_id) {
+        log.debug("REST request to delete the pair UserLikedIdea : {} : {}", idea_id, user_id);
+        Idea idea = ideaRepository.findOne(idea_id);
+        List<UserLikedIdea> userLikedIdeaList = userLikedIdeaRepository.findByIdea(idea);
+        UserLikedIdea target = new UserLikedIdea();
+        for (UserLikedIdea item : userLikedIdeaList) {
+            if(item.getUser() == userRepository.findOne(user_id)) {
+                target = item;
+                break;
+            }
+        }
+
+        Long id = target.getId();
+        userLikedIdeaRepository.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("userLikedIdea", id.toString())).build();
+    }
 
 
     /**
