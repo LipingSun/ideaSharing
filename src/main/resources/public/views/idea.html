@@ -27,6 +27,22 @@
 
                 <p>{{idea.idea.solution}}</p>
 
+                <h2 class="section-heading">Comments</h2>
+
+                <!--<p>{{idea.comments[0].content}}</p>-->
+
+                <div class="post-preview" ng-repeat="comment in idea.comments">
+                    <p class="post-title">{{comment.content}}</p>
+                    <p class="post-meta">Commented by <b>{{comment.commenter.username}}</b> on {{comment.datetimeString}}</p>
+                    <hr>
+                </div>
+
+                <h2 class="section-heading">New Comment</h2>
+
+                <textarea class="form-control" rows="10" ng-model="idea.userComment"></textarea>
+
+                <ul class="pager"><li class="next"><a href="" ng-click="idea.submitComment()">Submit</a></li></ul>
+
             </div>
         </div>
     </div>
