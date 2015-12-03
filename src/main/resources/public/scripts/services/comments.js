@@ -9,5 +9,6 @@
  */
 angular.module('ideaSharingApp')
     .service('comments', function ($resource) {
-        return $resource('http://localhost:8080/api/ideas/:idea_id/comments/:id', {}, {})
+        //return $resource('http://localhost:8080/api/ideas/:idea_id/comments/:id', {}, {});
+        return $resource('/api/ideas/:idea_id/comments/:id', {}, {});
     });

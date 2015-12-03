@@ -9,5 +9,6 @@
  */
 angular.module('ideaSharingApp')
     .service('ideas', function ($resource) {
-      return $resource('http://localhost:8080/api/ideas/:id', {}, {})
+      //return $resource('http://localhost:8080/api/ideas/:id', {}, {});
+      return $resource('/api/ideas/:id', {}, {});
     });
