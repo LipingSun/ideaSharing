@@ -8,7 +8,7 @@
  * Controller of the ideaSharingApp
  */
 angular.module('ideaSharingApp')
-    .controller('IdeaCtrl', function ($routeParams, ideas) {
+    .controller('IdeaCtrl', function ($routeParams, ideas, comments) {
 
         var ctrl = this;
 
@@ -21,6 +21,19 @@ angular.module('ideaSharingApp')
             ctrl.idea.datetimeString = monthNames[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
 
         });
+
+        ctrl.comments = comments.query({idea_id: $routeParams.ideaId}, function () {
+            ctrl.comments.forEach(function (comment) {
+                var date = new Date(comment.datetime * 1000);
+                comment.datetimeString = monthNames[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
+            })
+        });
+
+
+        //ctrl.submitComment = function () {
+        //    var newComment = new comments(ctrl.idea.id, ctrl.userComment);
+        //    newComment.$save();
+        //}
 
 
     });
