@@ -1,0 +1,22 @@
+.nav .open > a {
+    color: #ffffff !important;
+    background-color: transparent !important;
+}
+
+.dropdown-menu {
+    background-color: transparent !important;
+    border: 0px !important;
+    box-shadow: none !important;
+}
+
+.dropdown-menu-top {
+    margin-top: -20px !important;
+}
+
+.dropdown-menu-item {
+    padding: 5px !important;
+}
+
+.dropdown-menu-item:hover, .dropdown-menu-item:focus {
+    background-color: transparent !important;
+}
