@@ -4,12 +4,14 @@ import edu.sjsu.cmpe275.project.domain.Idea;
 import edu.sjsu.cmpe275.project.domain.User;
 import edu.sjsu.cmpe275.project.domain.UserLikedIdea;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Spring Data JPA repository for the UserLikedIdea entity. Chang's part
  */
+@Repository
 public interface UserLikedIdeaRepository extends JpaRepository<UserLikedIdea, Long> {
     /**
      * Returns the UserLikedIdea entry list by using its user as search criteria.
