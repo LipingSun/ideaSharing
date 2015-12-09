@@ -51,18 +51,18 @@
                     <a href="#share-idea">Share Your Idea</a>
                 </li>
                 <li>
-                    <a data-toggle="dropdown">
-                        Dropdown trigger
-                        <span class="caret"></span>
-                    </a>
-
+                    <a data-toggle="dropdown">Ideas</a>
                     <ul class="dropdown-menu dropdown-menu-top">
-                        <li>
-                            <a href="#share-idea" class="dropdown-menu-item">Share Your Idea</a>
-                        </li>
-                        <li>
-                            <a href="#share-idea" class="dropdown-menu-item">Share Your Idea</a>
-                        </li>
+                        <li><a href="#" class="dropdown-menu-item">My ideas</a></li>
+                        <li><a href="#" class="dropdown-menu-item">Liked ideas</a></li>
+                        <li><a href="#" class="dropdown-menu-item">Viewed ideas</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a data-toggle="dropdown">Username</a>
+                    <ul class="dropdown-menu dropdown-menu-top">
+                        <li><a href="#" class="dropdown-menu-item">Account</a></li>
+                        <li><a href="#" class="dropdown-menu-item">Logout</a></li>
                     </ul>
                 </li>
                 <li>
@@ -84,11 +84,20 @@
                 <h4 class="modal-title" id="myModalLabel">Login</h4>
             </div>
             <div class="modal-body">
-                ...
+                <form action="login" method="post" id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn-sm">Save changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-primary" form="loginForm" value="Login">
             </div>
         </div>
     </div>
