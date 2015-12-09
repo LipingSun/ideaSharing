@@ -1,20 +1,17 @@
 package edu.sjsu.cmpe275.project.config;
 
+import edu.sjsu.cmpe275.project.domain.User;
 import edu.sjsu.cmpe275.project.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import javax.inject.Inject;
+import java.util.Properties;
 
 /**
  * Created by Liping on 12/8/15.
@@ -24,11 +21,21 @@ import javax.inject.Inject;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Inject
-    private UserDetailsService userDetailsService;
+    UserRepository userRepository;
 
     @Inject
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(inMemoryUserDetailsManager());
+    }
+
+    @Bean
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+        final Properties users = new Properties();
+
+        for(User user : userRepository.findAll()){
+            users.put(user.getUsername(), user.getPassword() + ",ROLE_USER,enabled");
+        }
+        return new InMemoryUserDetailsManager(users);
     }
 
     @Override
