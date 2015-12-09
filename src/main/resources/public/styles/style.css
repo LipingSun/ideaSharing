@@ -7,6 +7,7 @@
     background-color: transparent !important;
     border: 0px !important;
     box-shadow: none !important;
+    min-width: 100px !important;
 }
 
 .dropdown-menu-top {
@@ -15,8 +16,13 @@
 
 .dropdown-menu-item {
     padding: 5px !important;
+    padding-right: 20px !important;
 }
 
 .dropdown-menu-item:hover, .dropdown-menu-item:focus {
     background-color: transparent !important;
+}
+
+.dropdown-menu li {
+    text-align: right !important;
 }
