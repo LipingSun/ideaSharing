@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.Principal;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -100,8 +101,9 @@ public class IdeaResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<List<Idea>> getAllIdeas(Pageable pageable , @RequestParam (value ="user_id",required = false) String user_id)
+    public ResponseEntity<List<Idea>> getAllIdeas(Pageable pageable , @RequestParam (value ="user_id",required = false) String user_id, Principal principal)
         throws URISyntaxException {
+        System.out.println(principal.getName());
         if(user_id == null){
             Page<Idea> page = ideaRepository.findAll(pageable);
 //            log.debug("sss"+user_id);
