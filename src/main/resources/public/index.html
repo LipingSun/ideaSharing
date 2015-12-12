@@ -105,36 +105,36 @@
 </div>
 
 <!-- Register Modal -->
-<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel">
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" ng-controller="RegisterCtrl as register">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" >
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="registerModalLabel">Register</h4>
             </div>
             <div class="modal-body">
-                <form action="api/users" method="post" id="registerForm">
+                <form id="registerForm">
                     <div class="form-group">
                         <label for="registerUsername">Username</label>
-                        <input type="text" class="form-control" id="registerUsername" name="username" placeholder="Username">
+                        <input type="text" class="form-control" ng-model="register.newUser.username" id="registerUsername" name="username" placeholder="Username">
                     </div>
                     <div class="form-group">
                         <label for="registerPassword">Password</label>
-                        <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Password">
+                        <input type="password" class="form-control" ng-model="register.newUser.password" id="registerPassword" name="password" placeholder="Password">
                     </div>
                     <div class="form-group">
                         <label for="registerEmail">Email</label>
-                        <input type="text" class="form-control" id="registerEmail" name="email" placeholder="Email">
+                        <input type="text" class="form-control" ng-model="register.newUser.email" id="registerEmail" name="email" placeholder="Email">
                     </div>
                     <div class="form-group">
                         <label for="registerDescription">Description</label>
-                        <textarea type="text" class="form-control" id="registerDescription" name="description" placeholder="Description"></textarea>
+                        <textarea type="text" class="form-control" ng-model="register.newUser.description" id="registerDescription" name="description" placeholder="Description"></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary" form="registerForm" value="Register">
+                <button type="submit" class="btn btn-primary" ng-click="register.register(register.newUser)">Register</button>
             </div>
         </div>
     </div>
@@ -158,7 +158,9 @@
 <script src="scripts/controllers/idea.js"></script>
 <script src="scripts/controllers/home.js"></script>
 <script src="scripts/controllers/share-idea.js"></script>
+<script src="scripts/controllers/register.js"></script>
 <script src="scripts/services/ideas.js"></script>
+<script src="scripts/services/users.js"></script>
 <script src="scripts/services/comments.js"></script>
 <!-- endbuild -->
 
