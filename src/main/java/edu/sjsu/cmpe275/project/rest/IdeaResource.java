@@ -101,25 +101,25 @@ public class IdeaResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<List<Idea>> getAllIdeas(Pageable pageable , @RequestParam (value ="user_id",required = false) String user_id, Principal principal)
+    public ResponseEntity<List<Idea>> getAllIdeas(Pageable pageable, Principal principal)
         throws URISyntaxException {
-        System.out.println(principal.getName());
-        if(user_id == null){
+        //System.out.println(principal.getName());
+        //if(user_id == null){
             Page<Idea> page = ideaRepository.findAll(pageable);
 //            log.debug("sss"+user_id);
             HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/ideas");
             return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-        }else{
-
-            User user = userRepository.findOne(Long.parseLong(user_id));
-            if(user == null)  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            List<Idea> list = ideaRepository.findAllByUser_id(user);
-            return Optional.ofNullable(list)
-                .map(user_ideas -> new ResponseEntity<>(
-                        list,
-                        HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-        }
+        //}else{
+        //
+        //    User user = userRepository.findOne(Long.parseLong(user_id));
+        //    if(user == null)  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        //    List<Idea> list = ideaRepository.findAllByUser_id(user);
+        //    return Optional.ofNullable(list)
+        //        .map(user_ideas -> new ResponseEntity<>(
+        //                list,
+        //                HttpStatus.OK))
+        //        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        //}
 
     }
 
