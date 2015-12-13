@@ -12,7 +12,7 @@ angular.module('ideaSharingApp')
 
         var ctrl = this;
 
-        var user = users.get({id: "1"}, function () {
+        var user = users.get({id: "1002"}, function () {
             console.log(user);
 
             ctrl.user = user;
