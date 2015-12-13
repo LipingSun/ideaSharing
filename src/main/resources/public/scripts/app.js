@@ -35,6 +35,11 @@ angular
               controller: 'ShareIdeaCtrl',
               controllerAs: 'shareIdea'
             })
+            .when('/account', {
+                templateUrl: 'views/account.html',
+                controller: 'AccountCtrl',
+                controllerAs: 'account'
+            })
             .otherwise({
                 redirectTo: '/'
             });
