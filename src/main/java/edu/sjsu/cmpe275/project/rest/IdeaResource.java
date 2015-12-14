@@ -53,7 +53,7 @@ public class IdeaResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<Idea> createIdea(@RequestBody Idea idea, @RequestParam(value ="user_id", required = false) Long user_id) throws URISyntaxException {
+    public ResponseEntity<Idea> createIdea(@RequestBody Idea idea, Principal principal) throws URISyntaxException {
         log.debug("REST request to save Idea : {}", idea);
 
         if (idea.getId() != null) {
@@ -61,7 +61,7 @@ public class IdeaResource {
         }
 
         //User user = userRepository.findOne(user_id);
-        User user = userRepository.findOne((long) 1);
+        User user = userRepository.findOneByUsername(principal.getName());
 
         if(user == null)  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         idea.setUser(user);
@@ -69,7 +69,6 @@ public class IdeaResource {
         Idea result = ideaRepository.save(idea);
         return ResponseEntity.created(new URI("/api/ideas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("idea", result.getId().toString()))
-
             .body(result);
     }
 
@@ -85,9 +84,9 @@ public class IdeaResource {
         if(idea.getUser() == null){
             return ResponseEntity.badRequest().header("Failure", "This idea does not have a owner").body(null);
         }
-        if (idea.getId() == null || ideaRepository.findOne(idea.getId()) == null) {
-            return createIdea(idea , idea.getUser().getId());
-        }
+        //if (idea.getId() == null || ideaRepository.findOne(idea.getId()) == null) {
+        //    return createIdea(idea , idea.getUser().getUsername());
+        //}
         Idea result = ideaRepository.save(idea);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("idea", idea.getId().toString()))
