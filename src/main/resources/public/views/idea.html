@@ -18,7 +18,7 @@
 <article>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" ng-init="like = false">
                 <h2 class="section-heading">Problem</h2>
 
                 <p>{{idea.idea.problem}}</p>
@@ -26,6 +26,10 @@
                 <h2 class="section-heading">Solution</h2>
 
                 <p>{{idea.idea.solution}}</p>
+
+                <br>
+                <span ng-click="like = true" ng-show="like == false" class="glyphicon glyphicon glyphicon-heart-empty like-icon"></span>
+                <span ng-click="like = false" ng-show="like == true" class="glyphicon glyphicon glyphicon-heart like-icon"></span>
 
                 <h2 class="section-heading">Comments</h2>
 
