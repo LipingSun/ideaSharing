@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-            <div class="post-preview" ng-repeat="idea in home.ideas">
+            <div class="post-preview" ng-repeat="idea in home.ideas | filter:nav.keyword">
                 <a href="#ideas/{{idea.id}}">
                     <h2 class="post-title">
                         {{idea.title}}
