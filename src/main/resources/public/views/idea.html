@@ -43,9 +43,9 @@
 
                 <h2 class="section-heading">New Comment</h2>
 
-                <textarea class="form-control" rows="10" ng-model="idea.userComment"></textarea>
+                <textarea class="form-control" rows="10" ng-model="idea.commentContent"></textarea>
 
-                <ul class="pager"><li class="next"><a href="" ng-click="idea.submitComment()">Submit</a></li></ul>
+                <ul class="pager"><li class="next"><a href="" ng-click="idea.submitComment(idea.commentContent)">Submit</a></li></ul>
 
             </div>
         </div>

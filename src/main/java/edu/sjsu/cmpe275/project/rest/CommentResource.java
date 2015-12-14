@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.Principal;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +47,7 @@ public class CommentResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<Comment> createComment(@RequestBody Comment comment , @PathVariable("idea_id") long idea_id) throws URISyntaxException {
+    public ResponseEntity<Comment> createComment(@RequestBody Comment comment , @PathVariable("idea_id") long idea_id, Principal principal) throws URISyntaxException {
         log.debug("REST request to save Comment : {}", comment);
 
         if (comment.getId() != null) {
@@ -58,7 +59,7 @@ public class CommentResource {
             return ResponseEntity.badRequest().header("Failure", "Thia idea does not exist").body(null);
         }
 
-        User commenter = userRepository.findOne((long) 1);
+        User commenter = userRepository.findOneByUsername(principal.getName());
         comment.setIdea(idea);
         comment.setDatetime(ZonedDateTime.now());
         comment.setCommenter(commenter);

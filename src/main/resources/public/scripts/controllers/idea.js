@@ -30,10 +30,17 @@ angular.module('ideaSharingApp')
         });
 
 
-        //ctrl.submitComment = function () {
-        //    var newComment = new comments(ctrl.idea.id, ctrl.userComment);
-        //    newComment.$save();
-        //}
+        ctrl.submitComment = function (commentContent) {
+            var newComment = {
+                idea_id: ctrl.idea.id,
+                content: commentContent
+            };
+
+            var comment = new comments(newComment, {idea_id: ctrl.idea.id});
+            comment.$save(function () {
+                ctrl.comments.push(comment)
+            });
+        }
 
 
     });
