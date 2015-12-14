@@ -8,23 +8,12 @@
  * Controller of the ideaSharingApp
  */
 angular.module('ideaSharingApp')
-    .controller('AccountCtrl', function (users) {
+    .controller('AccountCtrl', function (users, $http) {
 
         var ctrl = this;
 
-        var user = users.get({id: "1002"}, function () {
-            console.log(user);
-
-            ctrl.user = user;
-
+        $http.get("/api/principal").then(function (res) {
+            ctrl.user = users.get({id: res.data.id});
         });
-
-
-
-        //ctrl.submitComment = function () {
-        //    var newComment = new comments(ctrl.idea.id, ctrl.userComment);
-        //    newComment.$save();
-        //}
-
 
     });

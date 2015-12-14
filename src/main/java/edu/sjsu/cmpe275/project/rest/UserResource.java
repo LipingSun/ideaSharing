@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URISyntaxException;
+import java.security.Principal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -127,5 +128,21 @@ public class UserResource {
         log.debug("REST request to delete User : {}", id);
         userRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("user", id.toString())).build();
+    }
+
+    /**
+     * GET  /principal -> get current user.
+     */
+    @RequestMapping(value = "/principal",
+            method = RequestMethod.GET)
+
+    public ResponseEntity<User> getPrincipal(Principal principal) {
+        log.debug("REST request to get Principal");
+
+        return Optional.ofNullable(userRepository.findOneByUsername(principal.getName()))
+                .map(user -> new ResponseEntity<>(
+                        user,
+                        HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
