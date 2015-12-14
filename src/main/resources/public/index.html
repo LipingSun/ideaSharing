@@ -69,7 +69,12 @@
                     </ul>
                 </li>
                 <li>
-                    <a>Search</a>
+                    <a data-toggle="dropdown">Search</a>
+                    <ul class="dropdown-menu dropdown-menu-top">
+                        <li>
+                            <input type="text" class="form-control" ng-model="nav.keyword">
+                        </li>
+                    </ul>
                 </li>
                 <li ng-show="nav.user">
                     <a data-toggle="dropdown">{{nav.user.username}}</a>
